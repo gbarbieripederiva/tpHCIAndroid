@@ -2,6 +2,7 @@ package ar.edu.itba.barsahome.ui.rooms;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,6 +87,7 @@ public class RoomsFragment extends Fragment {
                         /*textView.setText("Hubo un error");
                         textView.setVisibility(View.VISIBLE);
                         recyclerView.setVisibility(View.GONE);*/
+                        Log.e("RoomsFragment Api call",error.toString());
                     }
                 }
         );

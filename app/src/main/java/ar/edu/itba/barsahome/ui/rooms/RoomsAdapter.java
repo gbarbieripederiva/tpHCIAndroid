@@ -8,6 +8,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import ar.edu.itba.barsahome.R;
@@ -35,9 +36,17 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         holder.textview.setText(this.rooms[position].getName());
         holder.button.setImageDrawable(context.getDrawable(R.drawable.ic_home));
+        holder.button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RoomsFragmentDirections.ActionNavRoomsToNavRoom action =
+                        RoomsFragmentDirections.actionNavRoomsToNavRoom(rooms[position].getName(),rooms[position].getId());
+                Navigation.findNavController(v).navigate(action);
+            }
+        });
     }
 
     @Override

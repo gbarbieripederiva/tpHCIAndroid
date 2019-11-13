@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: "androidx.navigation.safeargs"
+
 
 def apiIpPropertiesFile = rootProject.file("apiIp.properties")
 def apiIpProperties = new Properties()

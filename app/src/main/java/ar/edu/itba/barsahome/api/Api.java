@@ -90,6 +90,26 @@ public class Api {
         return uuid;
     }
 
+    public String getDevices(Response.Listener<ArrayList<Device>> listener, Response.ErrorListener errorListener) {
+        String url = URL + "devices/";
+        GsonRequest<Object, ArrayList<Device>> request =
+                new GsonRequest<>(Request.Method.GET, url, null, "devices", new TypeToken<ArrayList<Device>>(){}, null, listener, errorListener);
+        String uuid = UUID.randomUUID().toString();
+        request.setTag(uuid);
+        requestQueue.add(request);
+        return uuid;
+    }
+
+    public String getDevicesInRoom(String roomId,Response.Listener<ArrayList<Device>> listener, Response.ErrorListener errorListener) {
+        String url = URL + "rooms/" + roomId + "/devices";
+        GsonRequest<Object, ArrayList<Device>> request =
+                new GsonRequest<>(Request.Method.GET, url, null, "result", new TypeToken<ArrayList<Device>>(){}, null, listener, errorListener);
+        String uuid = UUID.randomUUID().toString();
+        request.setTag(uuid);
+        requestQueue.add(request);
+        return uuid;
+    }
+
     public void cancelRequest(String uuid) {
         if ((uuid != null) && (requestQueue != null)) {
             requestQueue.cancelAll(uuid);

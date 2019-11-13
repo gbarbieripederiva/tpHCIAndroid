@@ -3,13 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/fragment_rooms_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />
-    <TextView
-        android:id="@+id/fragment_rooms_empty"
-        android:layout_width="match_parent"
-        android:gravity="center"
-        android:layout_height="match_parent"/>
+        android:id="@+id/fragment_room_recyclerview"/>
 </LinearLayout>

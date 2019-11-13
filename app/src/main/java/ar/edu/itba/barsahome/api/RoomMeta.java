@@ -1,22 +1,22 @@
 package ar.edu.itba.barsahome.api;
 
 public class RoomMeta {
-    private String size;
+    private String img;
 
-    public RoomMeta(String size) {
-        this.size = size;
+    public RoomMeta(String img) {
+        this.img = img;
     }
 
-    public void setSize(String size) {
-        this.size = size;
+    public void setImg(String img) {
+        this.img = img;
     }
 
-    public String getSize() {
-        return this.size;
+    public String getImg() {
+        return this.img;
     }
 
     @Override
     public String toString() {
-        return this.getSize();
+        return String.valueOf(this.getImg());
     }
 }
