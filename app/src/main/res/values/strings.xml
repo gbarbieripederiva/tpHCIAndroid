@@ -8,4 +8,7 @@
     <string name="action_settings">Settings</string>
 
     <string name="menu_dispostivos_favoritos">Dispositivos favoritos</string>
+    <string name="menu_rooms">Cuartos</string>
+    <string name="getting_rooms_from_api">Obteniendo cuartos...</string>
+    <string name="no_rooms">No hay cuartos</string>
 </resources>
