@@ -1,9 +1,11 @@
 package ar.edu.itba.barsahome.api;
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
@@ -17,12 +19,30 @@ import ar.edu.itba.barsahome.BuildConfig;
 public class Api {
     private static Api instance;
     private static RequestQueue requestQueue;
+    private static Map<String,String> typeId=new HashMap<>();
     // Use IP 10.0.2.2 instead of 127.0.0.1 when running Android emulator in the
     // same computer that runs the API.
     private final String URL="http://"+BuildConfig.api_ip_port+"/api/";
 
     private Api(Context context) {
         this.requestQueue = VolleySingleton.getInstance(context).getRequestQueue();
+        getDeviceTypes(
+                new Response.Listener<ArrayList<DeviceType>>() {
+                    @Override
+                    public void onResponse(ArrayList<DeviceType> response) {
+                        for(DeviceType d:response){
+                            typeId.put(d.getName(),d.getId());
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //TODO: better error handling in init api
+                        Log.e("API Initiation",error.toString());
+                    }
+                }
+        );
     }
 
     public static synchronized Api getInstance(Context context) {
@@ -88,6 +108,20 @@ public class Api {
         request.setTag(uuid);
         requestQueue.add(request);
         return uuid;
+    }
+
+    public String getDeviceTypes(Response.Listener<ArrayList<DeviceType>> listener, Response.ErrorListener errorListener) {
+        String url = URL + "devicetypes/";
+        GsonRequest<Object, ArrayList<DeviceType>> request =
+                new GsonRequest<>(Request.Method.GET, url, null, "result", new TypeToken<ArrayList<DeviceType>>(){}, null, listener, errorListener);
+        String uuid = UUID.randomUUID().toString();
+        request.setTag(uuid);
+        requestQueue.add(request);
+        return uuid;
+    }
+
+    public String getTypeId(String type){
+        return typeId.get(type);
     }
 
     public String getDevices(Response.Listener<ArrayList<Device>> listener, Response.ErrorListener errorListener) {
