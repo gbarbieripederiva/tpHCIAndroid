@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -16,14 +15,14 @@ import ar.edu.itba.barsahome.api.Room;
 
 public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.ViewHolder> {
     private Context context;
-    private Room rooms[];
+    private Room[] rooms;
 
-    public RoomsAdapter(Room rooms[], Context context) {
+    public RoomsAdapter(Room[] rooms, Context context) {
         this.rooms=rooms;
         this.context=context;
     }
 
-    public void chageDataSet(Room rooms[]){
+    public void changeDataSet(Room[] rooms){
         this.rooms=rooms;
         this.notifyDataSetChanged();
     }

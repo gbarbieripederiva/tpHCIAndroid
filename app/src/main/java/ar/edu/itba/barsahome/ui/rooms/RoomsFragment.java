@@ -2,19 +2,16 @@ package ar.edu.itba.barsahome.ui.rooms;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Response;
@@ -27,7 +24,7 @@ import ar.edu.itba.barsahome.api.Api;
 import ar.edu.itba.barsahome.api.Room;
 
 public class RoomsFragment extends Fragment {
-    private Room rooms[];
+    private Room[] rooms;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,7 +70,7 @@ public class RoomsFragment extends Fragment {
                     public void onResponse(ArrayList<Room> response) {
                         rooms=response.toArray(new Room[response.size()]);
                         if(rooms.length>0){
-                            adapter.chageDataSet(rooms);
+                            adapter.changeDataSet(rooms);
                             recyclerView.setVisibility(View.VISIBLE);
                             textView.setVisibility(View.GONE);
                         }else{
