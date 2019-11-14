@@ -1,6 +1,7 @@
 package ar.edu.itba.barsahome.api;
 import android.content.Context;
 import android.util.Log;
+import android.util.Pair;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -9,17 +10,20 @@ import com.android.volley.VolleyError;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import ar.edu.itba.barsahome.BuildConfig;
+import ar.edu.itba.barsahome.R;
 
 
 public class Api {
     private static Api instance;
     private static RequestQueue requestQueue;
-    private static Map<String,String> typeId=new HashMap<>();
+    private static Map<String, DeviceType> typeId=new HashMap<>();
     // Use IP 10.0.2.2 instead of 127.0.0.1 when running Android emulator in the
     // same computer that runs the API.
     private final String URL="http://"+BuildConfig.api_ip_port+"/api/";
@@ -31,7 +35,28 @@ public class Api {
                     @Override
                     public void onResponse(ArrayList<DeviceType> response) {
                         for(DeviceType d:response){
-                            typeId.put(d.getName(),d.getId());
+                            switch (d.getName()){
+                                case "blinds":
+                                    typeId.put(d.getName(),new DeviceType(d.getId(),d.getName(),R.drawable.ic_blinds));
+                                    break;
+                                case "lamp":
+                                    typeId.put(d.getName(),new DeviceType(d.getId(),d.getName(),R.drawable.ic_lamp));
+                                    break;
+                                case "oven":
+                                    typeId.put(d.getName(),new DeviceType(d.getId(),d.getName(),R.drawable.ic_oven));
+                                    break;
+                                case "ac":
+                                    typeId.put(d.getName(),new DeviceType(d.getId(),d.getName(),R.drawable.ic_ac));
+                                    break;
+                                case "door":
+                                    typeId.put(d.getName(),new DeviceType(d.getId(),d.getName(),R.drawable.ic_door));
+                                    break;
+                                case "refrigerator":
+                                    typeId.put(d.getName(),new DeviceType(d.getId(),d.getName(),R.drawable.ic_refrigerator));
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
                     }
                 },
@@ -121,7 +146,21 @@ public class Api {
     }
 
     public String getTypeId(String type){
-        return typeId.get(type);
+        return typeId.get(type).getId();
+    }
+
+    public Set<String> getTypesNames(){;
+        return typeId.keySet();
+    }
+
+    public DeviceType[] getTypes(){
+        Collection<DeviceType> col=typeId.values();
+        return col.toArray(new DeviceType[typeId.values().size()]);
+    }
+
+    public Integer getDeviceTypeIcon(String type){
+        DeviceType deviceType = typeId.get(type);
+        return deviceType==null?R.drawable.ic_unknown_device:deviceType.getImg();
     }
 
     public String getDevices(Response.Listener<ArrayList<Device>> listener, Response.ErrorListener errorListener) {

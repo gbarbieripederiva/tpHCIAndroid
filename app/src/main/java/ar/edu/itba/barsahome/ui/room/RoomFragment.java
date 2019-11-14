@@ -48,7 +48,7 @@ public class RoomFragment extends Fragment {
 
         RecyclerView recyclerView=view.findViewById(R.id.fragment_room_recyclerview);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
-        final RoomAdapter adapter = new RoomAdapter(this.devices,getContext());
+        final RoomAdapter adapter = new RoomAdapter(this.devices,this.roomName,this.roomId);
         recyclerView.setAdapter(adapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 

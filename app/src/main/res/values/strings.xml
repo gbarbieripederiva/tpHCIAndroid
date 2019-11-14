@@ -11,6 +11,9 @@
     <string name="menu_rooms">Cuartos</string>
     <string name="getting_rooms_from_api">Obteniendo cuartos...</string>
     <string name="no_rooms">No hay cuartos</string>
-    <string name="name">nombre</string>
+    <string name="name">Nombre</string>
     <string name="add_cuarto">Agregar cuarto</string>
+    <string name="add_device">Añadir dispositivo</string>
+    <string name="type">Tipo</string>
+    <string name="listo">Listo!</string>
 </resources>

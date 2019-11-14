@@ -25,6 +25,7 @@ import java.util.Arrays;
 import ar.edu.itba.barsahome.R;
 import ar.edu.itba.barsahome.api.Api;
 import ar.edu.itba.barsahome.api.Room;
+import ar.edu.itba.barsahome.api.RoomMeta;
 
 public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.ViewHolder> {
     private Context context;
@@ -78,7 +79,7 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.ViewHolder> 
                                 public void onClick(DialogInterface dialog, int whichButton) {
                                     Api.getInstance(v.getContext())
                                             .addRoom(
-                                                    new Room(input.getText().toString(), null),
+                                                    new Room(input.getText().toString(), new RoomMeta("mdi-home")),
                                                     new Response.Listener<Room>() {
                                                         @Override
                                                         public void onResponse(Room response) {

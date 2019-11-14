@@ -1,6 +1,5 @@
 package ar.edu.itba.barsahome.ui.room;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,16 +11,19 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import ar.edu.itba.barsahome.R;
+import ar.edu.itba.barsahome.api.Api;
 import ar.edu.itba.barsahome.api.Device;
 
 public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
 
-    private Context context;
+    private String roomId;
+    private String roomName;
     private Device[] devices;
 
-    public RoomAdapter(Device[] devices, Context context) {
+    public RoomAdapter(Device[] devices,String roomName,String roomId) {
         this.devices=devices;
-        this.context=context;
+        this.roomName=roomName;
+        this.roomId=roomId;
     }
 
     public void changeDataSet(Device[] devices){
@@ -38,13 +40,33 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        holder.textview.setText(this.devices[position].getName());
-        holder.button.setImageDrawable(context.getDrawable(R.drawable.ic_home));
+        if(position<devices.length){
+            holder.textview.setText(this.devices[position].getName());
+            Integer drawable= Api.getInstance(holder.button.getContext())
+                    .getDeviceTypeIcon(this.devices[position].getType().getName());
+            if(drawable!=null)
+                holder.button.setImageDrawable(holder.button.getContext().getDrawable(drawable));
+            else
+                holder.button.setImageDrawable(holder.button.getContext().getDrawable(R.drawable.ic_menu_camera));
+
+            holder.button.setOnClickListener(null);
+        }else{
+            holder.textview.setText("");
+            holder.button.setImageDrawable(holder.button.getContext().getDrawable(R.drawable.ic_add));
+            holder.button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    RoomFragmentDirections.ActionNavRoomToNavAddDevice action=
+                            RoomFragmentDirections.actionNavRoomToNavAddDevice(roomName,roomId);
+                    Navigation.findNavController(v).navigate(action);
+                }
+            });
+        }
     }
 
     @Override
     public int getItemCount() {
-        return this.devices.length;
+        return this.devices.length+1;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
