@@ -16,4 +16,10 @@
     <string name="add_device">Añadir dispositivo</string>
     <string name="type">Tipo</string>
     <string name="listo">Listo!</string>
+
+    <string-array name="fridge_opt">
+        <item>Normal</item>
+        <item>Fiesta</item>
+        <item>Vacaciones</item>
+    </string-array>
 </resources>

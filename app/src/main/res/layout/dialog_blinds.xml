@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Switch
+        android:id="@+id/blind_switch"
+        android:layout_width="148dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="15dp"
+        android:text="Abrir/Cerrar"
+        app:layout_constraintEnd_toEndOf="@+id/blind_prog"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@+id/blind_prog"
+        app:layout_constraintTop_toBottomOf="@+id/blind_text" />
+
+    <TextView
+        android:id="@+id/blind_text"
+        android:layout_width="142dp"
+        android:layout_height="71dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="15dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+        app:layout_constraintBottom_toTopOf="@+id/blind_switch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/blind_prog"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="226dp"
+        android:layout_height="31dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="200dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/blind_switch"
+        app:layout_constraintVertical_bias="0.312" />
+
+    <TextView
+        android:id="@+id/blind_percentage"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/blind_prog"
+        app:layout_constraintEnd_toEndOf="@+id/blind_prog"
+        app:layout_constraintStart_toStartOf="@+id/blind_prog"
+        app:layout_constraintTop_toBottomOf="@+id/blind_switch"
+        android:gravity="center"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
