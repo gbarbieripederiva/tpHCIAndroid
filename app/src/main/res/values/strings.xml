@@ -16,10 +16,50 @@
     <string name="add_device">Añadir dispositivo</string>
     <string name="type">Tipo</string>
     <string name="listo">Listo!</string>
+    <string name="mode_text">Modo</string>
+    <string name="ac_vertical_angle_text">Desplazamiento vertical de Aspa</string>
+    <string name="ac_horizontal_angle_text">Desplazamiento horizontal de Aspa</string>
+    <string name="ac_speed_text">Velocidad del ventilador</string>
+    <string name="ac_temp_text">Temperatura</string>
 
     <string-array name="fridge_opt">
         <item>Normal</item>
         <item>Fiesta</item>
         <item>Vacaciones</item>
     </string-array>
+    
+
+    <string-array name="ac_mode">
+        <item>Frío</item>
+        <item>Calor</item>
+        <item>Ventilación</item>
+    </string-array>
+
+    
+    <string-array name="ac_vertical_angle">
+        <item>Automático</item>
+        <item>22°</item>
+        <item>45°</item>
+        <item>67°</item>
+        <item>90°</item>
+    </string-array>
+    
+    <string-array name="ac_horizontal_angle">
+        <item>Automático</item>
+        <item>-90°</item>
+        <item>-45°</item>
+        <item>0°</item>
+        <item>45°</item>
+        <item>90°</item>
+    </string-array>
+
+    <string-array name="ac_speed">
+        <item>Automático</item>
+        <item>25%</item>
+        <item>50%</item>
+        <item>75%</item>
+        <item>100%</item>
+    </string-array>
+
+
 </resources>

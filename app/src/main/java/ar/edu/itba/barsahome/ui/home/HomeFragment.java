@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import ar.edu.itba.barsahome.MainActivity;
 import ar.edu.itba.barsahome.R;
+import ar.edu.itba.barsahome.ui.devices_dialogs.AcDialog;
 import ar.edu.itba.barsahome.ui.devices_dialogs.BlindDialog;
 import ar.edu.itba.barsahome.ui.devices_dialogs.DoorDialog;
 import ar.edu.itba.barsahome.ui.devices_dialogs.FridgeDialog;
@@ -37,7 +38,7 @@ public class HomeFragment extends Fragment {
         lamp_but.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DoorDialog dialog = new DoorDialog();
+                AcDialog dialog = new AcDialog();
                 dialog.show(getFragmentManager(), "Lamp");
             }
         });
