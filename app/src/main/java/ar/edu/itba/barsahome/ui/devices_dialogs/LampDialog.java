@@ -42,8 +42,14 @@ public class LampDialog extends DialogFragment {
 
         title = "LAMP";
         on = true;
-        currentColor = 0x33bbff00;
+        currentColor = 0x33bbff;// to Integer.hexstring() integertohexString
         intensity = 77;
+
+        /*String exmpl = "0xffffff";
+
+        currentColor = Integer.decode(exmpl).intValue();
+
+        System.out.println(Integer.toHexString(currentColor));*/
 
 
         View view = inflater.inflate(R.layout.dialog_lamp, container, false);
@@ -88,13 +94,11 @@ public class LampDialog extends DialogFragment {
                 AmbilWarnaDialog colordialog = new AmbilWarnaDialog(getActivity(), currentColor, new AmbilWarnaDialog.OnAmbilWarnaListener() {
                     @Override
                     public void onCancel(AmbilWarnaDialog dialog) {
-                        System.out.println(currentColor.toString());
                     }
 
                     @Override
                     public void onOk(AmbilWarnaDialog dialog, int color) {
                         currentColor = color;
-                        System.out.println(currentColor.toString());
                     }
                 });
                 colordialog.show();
