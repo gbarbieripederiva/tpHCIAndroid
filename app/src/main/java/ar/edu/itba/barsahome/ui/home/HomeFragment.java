@@ -39,7 +39,7 @@ public class HomeFragment extends Fragment {
         lamp_but.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OvenDialog dialog = new OvenDialog();
+                LampDialog dialog = new LampDialog();
                 dialog.show(getFragmentManager(), "Lamp");
             }
         });

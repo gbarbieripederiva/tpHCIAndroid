@@ -29,6 +29,8 @@
     <string name="accept">Aceptar</string>
     <string name="cancel">Cancelar</string>
     <string name="accept_message">Dispositivo cambiando de estado</string>
+    <string name="light_intensity_text">Intensidad de la luz</string>
+    <string name="show_color">Seleccionar color</string>
 
     <string-array name="fridge_opt">
         <item>Normal</item>
