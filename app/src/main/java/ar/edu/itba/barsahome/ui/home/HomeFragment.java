@@ -23,6 +23,7 @@ import ar.edu.itba.barsahome.ui.devices_dialogs.BlindDialog;
 import ar.edu.itba.barsahome.ui.devices_dialogs.DoorDialog;
 import ar.edu.itba.barsahome.ui.devices_dialogs.FridgeDialog;
 import ar.edu.itba.barsahome.ui.devices_dialogs.LampDialog;
+import ar.edu.itba.barsahome.ui.devices_dialogs.OvenDialog;
 
 public class HomeFragment extends Fragment {
 
@@ -38,7 +39,7 @@ public class HomeFragment extends Fragment {
         lamp_but.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AcDialog dialog = new AcDialog();
+                OvenDialog dialog = new OvenDialog();
                 dialog.show(getFragmentManager(), "Lamp");
             }
         });

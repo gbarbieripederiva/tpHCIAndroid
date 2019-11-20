@@ -9,6 +9,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
@@ -19,19 +20,27 @@ public class DoorDialog extends DialogFragment {
 
     private TextView door_title;
     private ImageButton door_lock;
-    private boolean locked;
-    private boolean openned;
     private Button open_close;
     private Switch door_switch;
+    private TextView cancel;
+    private TextView accept;
+
+    private boolean locked;
+    private boolean openned;
+    private String title;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
-        View view = inflater.inflate(R.layout.dialog_door, container, false);
+
+        title = "DOOR";
         locked = true; //TODO
         openned = true;
+
+        View view = inflater.inflate(R.layout.dialog_door, container, false);
+
         door_title = (TextView) view.findViewById(R.id.door_title);
-        door_title.setText("DOOR");
+        door_title.setText(title);
 
         door_switch = (Switch) view.findViewById(R.id.door_switch);
         if(openned){
@@ -75,6 +84,29 @@ public class DoorDialog extends DialogFragment {
 
             }
         });
+
+        cancel = (TextView) view.findViewById(R.id.cancel);
+        cancel.setText(getText(R.string.cancel));
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDialog().dismiss();
+            }
+        });
+
+
+
+        accept = (TextView) view.findViewById(R.id.accept);
+        accept.setText(getText(R.string.accept));
+        accept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(), getText(R.string.accept_message), Toast.LENGTH_SHORT).show();
+
+                getDialog().dismiss();
+            }
+        });
+
 
 
 

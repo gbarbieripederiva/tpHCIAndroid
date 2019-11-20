@@ -43,7 +43,7 @@
         app:layout_constraintVertical_bias="0.197" />
 
     <Switch
-        android:id="@+id/switch1"
+        android:id="@+id/ac_switch"
         android:layout_width="159dp"
         android:layout_height="51dp"
         android:text="Apagar/Encender"
@@ -156,7 +156,35 @@
         app:layout_constraintBottom_toTopOf="@+id/ac_temp_seekbar"
         app:layout_constraintEnd_toEndOf="@+id/ac_temp_seekbar"
         app:layout_constraintStart_toStartOf="@+id/ac_temp_seekbar"
-        app:layout_constraintTop_toBottomOf="@+id/switch1"
+        app:layout_constraintTop_toBottomOf="@+id/ac_switch"
         app:layout_constraintVertical_bias="0.303" />
+
+    <TextView
+        android:id="@+id/accept"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:textColor="#33bbff"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="@+id/cancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.892"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toTopOf="@+id/cancel"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:textColor="#33bbff"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline6"
+        app:layout_constraintHorizontal_bias="0.105"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ac_speed_text"
+        app:layout_constraintVertical_bias="0.636" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

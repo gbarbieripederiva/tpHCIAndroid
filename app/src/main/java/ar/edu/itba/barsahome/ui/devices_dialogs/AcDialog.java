@@ -6,16 +6,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 import ar.edu.itba.barsahome.R;
 
@@ -32,8 +31,12 @@ public class AcDialog extends DialogFragment {
     private Spinner acVert;
     private Spinner acSpeed;
     private SeekBar acTemp;
-    private Integer temp;
+    private Switch acSwitch;
+    private TextView cancel;
+    private TextView accept;
 
+
+    private Integer temp;
     private String title;
     private String[] acModeArray;
     private String[] acSpeedArray;
@@ -41,14 +44,18 @@ public class AcDialog extends DialogFragment {
     private String[] acHorArray;
     private Double min,max,current;
     private Integer currentMode, currentVert, currentHor, currentSpeed;
+    private boolean on;
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        title = "AC";
         min = 18.0;
         max = 38.0;
         current = 20.0;
+        on = true;
 
         acModeArray = getResources().getStringArray(R.array.ac_mode);
         acSpeedArray = getResources().getStringArray(R.array.ac_speed);
@@ -63,7 +70,10 @@ public class AcDialog extends DialogFragment {
 
 
 
-        View view = inflater.inflate(R.layout.ac_dialog, container, false);
+        View view = inflater.inflate(R.layout.dialog_ac, container, false);
+
+        acTitle = (TextView) view.findViewById(R.id.ac_title);
+        acTitle.setText(title);
 
         acSpeedText = (TextView) view.findViewById(R.id.ac_speed_text);
         acSpeedText.setText(getText(R.string.ac_speed_text));
@@ -78,20 +88,44 @@ public class AcDialog extends DialogFragment {
         acHorText.setText(getText(R.string.ac_horizontal_angle_text));
 
         acTempText = (TextView) view.findViewById(R.id.temp_text);
-        acTempText.setText(getText(R.string.ac_temp_text));
+        acTempText.setText(getText(R.string.temp_text));
 
         acMode = (Spinner) view.findViewById(R.id.ac_mode_spinner);
         ArrayAdapter<String> modeAdapter =  new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_spinner_item, acModeArray);
         acMode.setAdapter(modeAdapter);
         acMode.setSelection(currentMode);
-        currentMode = Arrays.asList(acModeArray).indexOf(acMode.getSelectedItem().toString());
+        acMode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                currentMode = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
         acHor = (Spinner) view.findViewById(R.id.ac_hor_spinner);
         ArrayAdapter<String> horAdapter =  new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_spinner_item, acHorArray);
         acHor.setAdapter(horAdapter);
         acHor.setSelection(currentHor);
-        currentHor = Arrays.asList(acHorArray).indexOf(acHor.getSelectedItem().toString());
+        acHor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                currentHor = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
 
 
         acVert = (Spinner) view.findViewById(R.id.ac_vertical_spinner);
@@ -99,6 +133,17 @@ public class AcDialog extends DialogFragment {
                 android.R.layout.simple_spinner_item, acVertArray);
         acVert.setAdapter(verAdapter);
         acVert.setSelection(currentVert);
+        acVert.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                currentVert = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
 
         acSpeed = (Spinner) view.findViewById(R.id.ac_speed_spinner);
@@ -106,10 +151,23 @@ public class AcDialog extends DialogFragment {
                 android.R.layout.simple_spinner_item, acSpeedArray);
         acSpeed.setAdapter(speedAdapter);
         acSpeed.setSelection(currentSpeed);
+        acSpeed.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                currentSpeed = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
 
         acTempValue = (TextView) view.findViewById(R.id.ac_temp_value);
-        acTempValue.setText(current.toString());
+        acTempValue.setText(current.toString() + "°C");
+
+
         acTemp = (SeekBar) view.findViewById(R.id.ac_temp_seekbar);
 
         acTemp.setProgress((int) ((current - min) * 100 /(max -min)));
@@ -132,11 +190,43 @@ public class AcDialog extends DialogFragment {
             }
         });
 
+        acSwitch = (Switch) view.findViewById(R.id.ac_switch);
+        acSwitch.setChecked(on);
+
+        acSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                on = isChecked;
+            }
+        });
+
+        cancel = (TextView) view.findViewById(R.id.cancel);
+        cancel.setText(getText(R.string.cancel));
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDialog().dismiss();
+            }
+        });
 
 
-        title = "AC";
-        acTitle = (TextView) view.findViewById(R.id.ac_title);
-        acTitle.setText(title);
+
+        accept = (TextView) view.findViewById(R.id.accept);
+        accept.setText(getText(R.string.accept));
+        accept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(), getText(R.string.accept_message), Toast.LENGTH_SHORT).show();
+
+                getDialog().dismiss();
+            }
+        });
+
+
+
+
+
+
 
         return view;
     }

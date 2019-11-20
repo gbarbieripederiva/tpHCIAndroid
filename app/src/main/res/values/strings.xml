@@ -20,7 +20,15 @@
     <string name="ac_vertical_angle_text">Desplazamiento vertical de Aspa</string>
     <string name="ac_horizontal_angle_text">Desplazamiento horizontal de Aspa</string>
     <string name="ac_speed_text">Velocidad del ventilador</string>
-    <string name="ac_temp_text">Temperatura</string>
+    <string name="temp_text">Temperatura</string>
+    <string name="oven_grill_mode_text">Modo grill</string>
+    <string name="oven_conv_mode_text">Modo convección</string>
+    <string name="oven_heat_source_text">Fuente de calor</string>
+    <string name="fridge_temp_text">Temperatura heladera</string>
+    <string name="freeze_temp_text">Temperatura freezer</string>
+    <string name="accept">Aceptar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="accept_message">Dispositivo cambiando de estado</string>
 
     <string-array name="fridge_opt">
         <item>Normal</item>
@@ -59,6 +67,25 @@
         <item>50%</item>
         <item>75%</item>
         <item>100%</item>
+    </string-array>
+
+
+    <string-array name="grill_mode">
+        <item>Apagado</item>
+        <item>Económico</item>
+        <item>Convencional</item>
+    </string-array>
+
+    <string-array name="conv_mode">
+        <item>Apagado</item>
+        <item>Económico</item>
+        <item>Convencional</item>
+    </string-array>
+
+    <string-array name="heat_source">
+        <item>Convencional</item>
+        <item>Abajo</item>
+        <item>Arriba</item>
     </string-array>
 
 
