@@ -207,12 +207,20 @@ public class Api {
     }
 
 
-    public String setAction(String deviceId, String actionName,Params[] args, Response.Listener<Object> listener, Response.ErrorListener errorListener){
-        String url = URL + "devices/" + deviceId+ "/" + actionName;
+    public String setAction(String deviceId, String actionName,Params[] args, Response.Listener<Object> listener, Response.ErrorListener errorListener) {
+        String url = URL + "devices/" + deviceId + "/" + actionName;
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
         GsonRequest<Params[], Object> request =
-                new GsonRequest<>(Request.Method.PUT, url, args, "result", new TypeToken<Object>(){}, headers, listener,errorListener );
+                new GsonRequest<>(Request.Method.PUT, url, args, "result", new TypeToken<Object>() {
+                }, headers, listener, errorListener);
+
+        String uuid = UUID.randomUUID().toString();
+        request.setTag(uuid);
+        requestQueue.add(request);
+
+        return uuid;
+    }
 
     public String addDevice(Device device, Response.Listener<Device> listener, Response.ErrorListener errorListener) {
         String url = URL + "devices";
