@@ -223,17 +223,17 @@ public class AcDialog extends DialogFragment {
             public void onClick(View v) {
                 Toast.makeText(getActivity(), getText(R.string.accept_message), Toast.LENGTH_SHORT).show();
                 if(on){
-                    api_turnOn("29534b8fad4d9084");
+                    api_turnOn(getArguments().getString("deviceId"));
                 }
                 else {
-                    api_turnOff("29534b8fad4d9084");
+                    api_turnOff(getArguments().getString("deviceId"));
                 }
 
-                api_changeSpeed("29534b8fad4d9084" , acSpeedArray[currentSpeed]);
-                api_changeVertical("29534b8fad4d9084", acVertArray[currentVert]);
-                api_changeHorizontal("29534b8fad4d9084" , acHorArray[currentHor]);
-                api_setMode("29534b8fad4d9084" , acModeArray[currentMode]);
-                api_setTemperature("29534b8fad4d9084" ,current);
+                api_changeSpeed(getArguments().getString("deviceId") , acSpeedArray[currentSpeed]);
+                api_changeVertical(getArguments().getString("deviceId"), acVertArray[currentVert]);
+                api_changeHorizontal(getArguments().getString("deviceId") , acHorArray[currentHor]);
+                api_setMode(getArguments().getString("deviceId") , acModeArray[currentMode]);
+                api_setTemperature(getArguments().getString("deviceId") ,current);
 
                 getDialog().dismiss();
             }
@@ -327,7 +327,6 @@ public class AcDialog extends DialogFragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //Toast.makeText(getActivity(), getText(R.string.error_api), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -342,7 +341,6 @@ public class AcDialog extends DialogFragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //Toast.makeText(getActivity(), getText(R.string.error_api), Toast.LENGTH_SHORT).show();
             }
         });
 

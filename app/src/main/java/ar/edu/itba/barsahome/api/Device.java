@@ -7,6 +7,7 @@ public class Device {
     private DeviceType type;
     private DeviceMeta meta;
 
+
     public Device(String name,DeviceType type,Room room, DeviceMeta meta) {
         this.name = name;
         this.room=room;

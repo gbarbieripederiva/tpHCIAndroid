@@ -53,7 +53,6 @@ public class DoorDialog extends DialogFragment {
         else{
             door_switch.setChecked(false);
         }
-
         door_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -81,8 +80,10 @@ public class DoorDialog extends DialogFragment {
                     if(openned){
                         door_switch.setChecked(false);
                     }
+                    door_switch.setClickable(false);
                     door_lock.setBackgroundResource(R.drawable.ic_lockdoor);
                 }else{
+                    door_switch.setClickable(true);
                     door_lock.setBackgroundResource(R.drawable.ic_unlockdoor);
                 }
 
@@ -106,6 +107,20 @@ public class DoorDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getActivity(), getText(R.string.accept_message), Toast.LENGTH_SHORT).show();
+
+                if(openned){
+                    api_open(getArguments().getString("deviceId"));
+                }
+                else{
+                    api_close(getArguments().getString("deviceId"));
+                }
+
+                if(locked){
+                    api_lock(getArguments().getString("deviceId"));
+                }
+                else {
+                    api_unlock(getArguments().getString("deviceId"));
+                }
 
                 getDialog().dismiss();
             }
@@ -166,20 +181,8 @@ public class DoorDialog extends DialogFragment {
         });
     }
 
-    private void api_block(String devId){
-        Api.getInstance(getActivity()).setAction(devId, "close", null, new Response.Listener<Object>() {
-            @Override
-            public void onResponse(Object response) {
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
-
-        Api.getInstance(getActivity()).setAction(devId, "block", null, new Response.Listener<Object>() {
+    private void api_lock(String devId){
+        Api.getInstance(getActivity()).setAction(devId, "lock", null, new Response.Listener<Object>() {
             @Override
             public void onResponse(Object response) {
 

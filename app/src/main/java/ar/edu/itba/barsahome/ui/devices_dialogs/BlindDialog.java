@@ -90,6 +90,13 @@ public class BlindDialog extends DialogFragment {
             public void onClick(View v) {
                 Toast.makeText(getActivity(), getText(R.string.accept_message), Toast.LENGTH_SHORT).show();
 
+                if(openning){
+                    api_open(getArguments().getString("deviceId"));
+                }
+                else {
+                    api_close(getArguments().getString("deviceId"));
+                }
+
                 getDialog().dismiss();
             }
         });
