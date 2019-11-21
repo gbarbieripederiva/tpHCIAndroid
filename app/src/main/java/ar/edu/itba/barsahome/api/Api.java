@@ -183,6 +183,33 @@ public class Api {
         return uuid;
     }
 
+    public String addDevice(Device device, Response.Listener<Device> listener, Response.ErrorListener errorListener) {
+        String url = URL + "devices";
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/json");
+        GsonRequest<Device, Device> request =
+                new GsonRequest<>(Request.Method.POST, url, device, "result", new TypeToken<Device>(){}, headers, listener, errorListener);
+        String uuid = UUID.randomUUID().toString();
+        request.setTag(uuid);
+        requestQueue.add(request);
+
+        return uuid;
+    }
+
+    public String addDeviceToRoom(String roomId,String deviceId, Response.Listener<Boolean> listener, Response.ErrorListener errorListener) {
+        String url = URL + "rooms/" + roomId + "/devices/" + deviceId;
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/json");
+        GsonRequest<Room, Boolean> request =
+                new GsonRequest<>(Request.Method.POST, url, null, "result", new TypeToken<Boolean>(){}, headers, listener, errorListener);
+        String uuid = UUID.randomUUID().toString();
+        request.setTag(uuid);
+        requestQueue.add(request);
+
+        return uuid;
+    }
+
+
     public void cancelRequest(String uuid) {
         if ((uuid != null) && (requestQueue != null)) {
             requestQueue.cancelAll(uuid);
