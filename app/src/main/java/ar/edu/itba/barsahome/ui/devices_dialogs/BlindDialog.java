@@ -13,7 +13,11 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+
 import ar.edu.itba.barsahome.R;
+import ar.edu.itba.barsahome.api.Api;
 
 public class BlindDialog extends DialogFragment {
     private TextView blind_title;
@@ -93,5 +97,33 @@ public class BlindDialog extends DialogFragment {
 
 
         return view;
+    }
+
+    private void api_open(String devId){
+        Api.getInstance(getActivity()).setAction(devId, "open", null, new Response.Listener<Object>() {
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+    }
+
+    private void api_close(String devId){
+        Api.getInstance(getActivity()).setAction(devId, "close", null, new Response.Listener<Object>() {
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
     }
 }

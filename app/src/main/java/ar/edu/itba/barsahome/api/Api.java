@@ -183,11 +183,11 @@ public class Api {
         return uuid;
     }
 
-    public String setAction(Device device, String actionName,String[] args, Response.Listener<Object> listener, Response.ErrorListener errorListener){
-        String url = URL + "devices/" + device.getId() + actionName;
+    public String setAction(String deviceId, String actionName,Params[] args, Response.Listener<Object> listener, Response.ErrorListener errorListener){
+        String url = URL + "devices/" + deviceId+ "/" + actionName;
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
-        GsonRequest<String[], Object> request =
+        GsonRequest<Params[], Object> request =
                 new GsonRequest<>(Request.Method.PUT, url, args, "result", new TypeToken<Object>(){}, headers, listener,errorListener );
         String uuid = UUID.randomUUID().toString();
         request.setTag(uuid);
@@ -195,6 +195,10 @@ public class Api {
 
         return uuid;
     }
+
+
+
+
 
 
 

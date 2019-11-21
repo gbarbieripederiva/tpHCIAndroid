@@ -17,7 +17,12 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+
 import ar.edu.itba.barsahome.R;
+import ar.edu.itba.barsahome.api.Api;
+import ar.edu.itba.barsahome.api.Params;
 
 public class OvenDialog extends DialogFragment {
     private SeekBar temp;
@@ -204,4 +209,106 @@ public class OvenDialog extends DialogFragment {
 
         return view;
     }
+
+
+    private void api_turnOff(String devId){
+        Api.getInstance(getActivity()).setAction(devId, "turnOff",null, new Response.Listener<Object>() {
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //Toast.makeText(getActivity(), getText(R.string.error_api), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void api_turnOn(String devId){
+        Api.getInstance(getActivity()).setAction(devId, "turnOn",null, new Response.Listener<Object>() {
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //Toast.makeText(getActivity(), getText(R.string.error_api), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+
+    private void api_setTemperature(String devId, Double temp){
+        Params[] args = new Params[1];
+        args[0] = new Params(null, null,null,temp);
+
+        Api.getInstance(getActivity()).setAction(devId, "setTemperature", args, new Response.Listener<Object>() {
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+    }
+
+    private void api_setHeat(String devId, String source){
+        Params[] args = new Params[1];
+        args[0] = new Params(source, null, null, null);
+
+        Api.getInstance(getActivity()).setAction(devId, "setHeat", args,new Response.Listener<Object>() {
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+    }
+
+    private void api_setGrill(String devId, String grill){
+        Params[] args = new Params[1];
+        args[0] = new Params(grill, null, null, null);
+
+        Api.getInstance(getActivity()).setAction(devId, "setGrill", args,new Response.Listener<Object>() {
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+    }
+
+    private void api_setConvection(String devId, String conv){
+        Params[] args = new Params[1];
+        args[0] = new Params(conv, null, null, null);
+
+        Api.getInstance(getActivity()).setAction(devId, "setConvection", args,new Response.Listener<Object>() {
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+    }
+
+
 }

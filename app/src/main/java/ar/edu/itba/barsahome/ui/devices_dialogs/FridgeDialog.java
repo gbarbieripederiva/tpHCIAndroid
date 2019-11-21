@@ -14,7 +14,12 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+
 import ar.edu.itba.barsahome.R;
+import ar.edu.itba.barsahome.api.Api;
+import ar.edu.itba.barsahome.api.Params;
 
 public class FridgeDialog extends DialogFragment {
     private TextView fridge_title;
@@ -155,4 +160,67 @@ public class FridgeDialog extends DialogFragment {
 
         return view;
     }
+
+
+
+
+
+    private void api_setFridgeTemp(String devId, Double temp){
+
+        Params[] args = new Params[1];
+        args[0] = new Params(null, null, null, temp);
+
+        Api.getInstance(getActivity()).setAction(devId, "setTemperature", args, new Response.Listener<Object>() {
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+    }
+
+    private void api_setFreezerTemp(String devId, Double temp){
+
+        Params[] args = new Params[1];
+        args[0] = new Params(null, null, null, temp);
+
+        Api.getInstance(getActivity()).setAction(devId, "setFreezerTemperature", args, new Response.Listener<Object>() {
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+    }
+
+    private void api_setMode(String devId, String mode){
+      Params[] args = new Params[1];
+      args[0] = new Params(mode, null, null, null);
+
+        Api.getInstance(getActivity()).setAction(devId, "setMode", args, new Response.Listener<Object>() {
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+    }
+
+
+
 }

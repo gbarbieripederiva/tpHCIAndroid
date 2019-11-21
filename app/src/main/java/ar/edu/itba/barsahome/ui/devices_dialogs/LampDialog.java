@@ -14,7 +14,12 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+
 import ar.edu.itba.barsahome.R;
+import ar.edu.itba.barsahome.api.Api;
+import ar.edu.itba.barsahome.api.Params;
 import yuku.ambilwarna.AmbilWarnaDialog;
 
 public class LampDialog extends DialogFragment {
@@ -43,7 +48,7 @@ public class LampDialog extends DialogFragment {
         title = "LAMP";
         on = true;
         currentColor = 0x33bbff;// to Integer.hexstring() integertohexString
-        intensity = 77;
+        intensity = 55;
 
         /*String exmpl = "0xffffff";
 
@@ -127,6 +132,8 @@ public class LampDialog extends DialogFragment {
             public void onClick(View v) {
                 Toast.makeText(getActivity(), getText(R.string.accept_message), Toast.LENGTH_SHORT).show();
 
+
+                api_turnOff("5ee2b87b62acec43");
                 getDialog().dismiss();
             }
         });
@@ -137,4 +144,80 @@ public class LampDialog extends DialogFragment {
 
         return view;
     }
+
+
+    private void api_setBrightness(String devId, Integer brightness){
+
+        Params[] params = new Params[1];
+        params[0] =  new Params(null,brightness,null,null);
+
+        Api.getInstance(getActivity()).setAction(devId, "setBrightness",params, new Response.Listener<Object>() {
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //Toast.makeText(getActivity(), getText(R.string.error_api), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+
+    private void api_setColor(String devId, String color){
+        Params[] params = new Params[1];
+        params[0] = new Params(color, null, null, null);
+        Api.getInstance(getActivity()).setAction(devId, "setColor",params, new Response.Listener<Object>() {
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //Toast.makeText(getActivity(), getText(R.string.error_api), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void api_turnOff(String devId){
+        Api.getInstance(getActivity()).setAction(devId, "turnOff",null, new Response.Listener<Object>() {
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //Toast.makeText(getActivity(), getText(R.string.error_api), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void api_turnOn(String devId){
+        Api.getInstance(getActivity()).setAction(devId, "turnOn",null, new Response.Listener<Object>() {
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //Toast.makeText(getActivity(), getText(R.string.error_api), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+
+
+
+
+
+
+
 }

@@ -16,7 +16,12 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+
 import ar.edu.itba.barsahome.R;
+import ar.edu.itba.barsahome.api.Api;
+import ar.edu.itba.barsahome.api.Params;
 
 public class AcDialog extends DialogFragment {
     private TextView acTitle;
@@ -217,6 +222,18 @@ public class AcDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getActivity(), getText(R.string.accept_message), Toast.LENGTH_SHORT).show();
+                if(on){
+                    api_turnOn("29534b8fad4d9084");
+                }
+                else {
+                    api_turnOff("29534b8fad4d9084");
+                }
+
+                api_changeSpeed("29534b8fad4d9084" , acSpeedArray[currentSpeed]);
+                api_changeVertical("29534b8fad4d9084", acVertArray[currentVert]);
+                api_changeHorizontal("29534b8fad4d9084" , acHorArray[currentHor]);
+                api_setMode("29534b8fad4d9084" , acModeArray[currentMode]);
+                api_setTemperature("29534b8fad4d9084" ,current);
 
                 getDialog().dismiss();
             }
@@ -229,5 +246,122 @@ public class AcDialog extends DialogFragment {
 
 
         return view;
+    }
+
+
+
+
+    private void api_changeSpeed(String devId, String speed){
+        Params[] args = new Params[1];
+        args[0] = new Params(speed, null,null,null);
+
+        Api.getInstance(getActivity()).setAction(devId, "setFanSpeed", args, new Response.Listener<Object>() {
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+    }
+
+    private void api_changeVertical(String devId, String vert){
+        Params[] args = new Params[1];
+        args[0] = new Params(vert, null,null,null);
+
+        Api.getInstance(getActivity()).setAction(devId, "setVerticalSwing", args, new Response.Listener<Object>() {
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+    }
+    private void api_changeHorizontal(String devId, String hor){
+        Params[] args = new Params[1];
+        args[0] = new Params(hor, null,null,null);
+
+        Api.getInstance(getActivity()).setAction(devId, "setHorizontalSwing", args, new Response.Listener<Object>() {
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+    }
+
+    private void api_setMode(String devId, String mode){
+        Params[] args = new Params[1];
+        args[0] = new Params(mode, null,null,null);
+
+        Api.getInstance(getActivity()).setAction(devId, "setMode", args, new Response.Listener<Object>() {
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+    }
+
+    private void api_turnOff(String devId){
+        Api.getInstance(getActivity()).setAction(devId, "turnOff",null, new Response.Listener<Object>() {
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //Toast.makeText(getActivity(), getText(R.string.error_api), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void api_turnOn(String devId){
+        Api.getInstance(getActivity()).setAction(devId, "turnOn",null, new Response.Listener<Object>() {
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //Toast.makeText(getActivity(), getText(R.string.error_api), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void api_setTemperature(String devId, Double temp){
+        Params[] args = new Params[1];
+        args[0] = new Params(null, null,null,temp);
+
+        Api.getInstance(getActivity()).setAction(devId, "setTemperature", args, new Response.Listener<Object>() {
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
     }
 }
