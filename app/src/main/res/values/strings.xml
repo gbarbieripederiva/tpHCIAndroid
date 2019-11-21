@@ -31,9 +31,7 @@
     <string name="accept_message">Dispositivo cambiando de estado</string>
     <string name="light_intensity_text">Intensidad de la luz</string>
     <string name="show_color">Seleccionar color</string>
-    <string name="successfull_api"></string>
-    <string name="error_api">Error en la conexión con la API</string>
-
+    <string name="error_opening_device">Error abriendo el dispositivo</string>
     <string-array name="fridge_opt">
         <item>Normal</item>
         <item>Fiesta</item>
