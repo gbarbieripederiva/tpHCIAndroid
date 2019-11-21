@@ -183,9 +183,24 @@ public class Api {
         return uuid;
     }
 
+    public String setAction(Device device, String actionName,String[] args, Response.Listener<Object> listener, Response.ErrorListener errorListener){
+        String url = URL + "devices/" + device.getId() + actionName;
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/json");
+        GsonRequest<String[], Object> request =
+                new GsonRequest<>(Request.Method.PUT, url, new String[0], "result", new TypeToken<Object>(){}, headers, listener,errorListener );
+        String uuid = UUID.randomUUID().toString();
+        request.setTag(uuid);
+        requestQueue.add(request);
+
+        return uuid;
+    }
+
     public void cancelRequest(String uuid) {
         if ((uuid != null) && (requestQueue != null)) {
             requestQueue.cancelAll(uuid);
         }
     }
+
+
 }
