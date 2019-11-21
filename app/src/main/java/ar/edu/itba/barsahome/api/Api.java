@@ -1,7 +1,11 @@
 package ar.edu.itba.barsahome.api;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.util.Log;
 import android.util.Pair;
+
+import androidx.fragment.app.DialogFragment;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -18,6 +22,13 @@ import java.util.UUID;
 
 import ar.edu.itba.barsahome.BuildConfig;
 import ar.edu.itba.barsahome.R;
+import ar.edu.itba.barsahome.ui.devices_dialogs.AcDialog;
+import ar.edu.itba.barsahome.ui.devices_dialogs.BlindDialog;
+import ar.edu.itba.barsahome.ui.devices_dialogs.DoorDialog;
+import ar.edu.itba.barsahome.ui.devices_dialogs.ErrorOpeningDeviceDialog;
+import ar.edu.itba.barsahome.ui.devices_dialogs.FridgeDialog;
+import ar.edu.itba.barsahome.ui.devices_dialogs.LampDialog;
+import ar.edu.itba.barsahome.ui.devices_dialogs.OvenDialog;
 
 
 public class Api {
@@ -29,6 +40,7 @@ public class Api {
     private final String URL="http://"+BuildConfig.api_ip_port+"/api/";
 
     private Api(Context context) {
+        //TODO:podriamos instanciar los devicetypes sin nada y cuando retorna la api agregarle datos
         this.requestQueue = VolleySingleton.getInstance(context).getRequestQueue();
         getDeviceTypes(
                 new Response.Listener<ArrayList<DeviceType>>() {
@@ -37,22 +49,22 @@ public class Api {
                         for(DeviceType d:response){
                             switch (d.getName()){
                                 case "blinds":
-                                    typeId.put(d.getName(),new DeviceType(d.getId(),d.getName(),R.drawable.ic_blinds));
+                                    typeId.put(d.getName(),new DeviceType(d.getId(),d.getName(),R.drawable.ic_blinds, BlindDialog.class));
                                     break;
                                 case "lamp":
-                                    typeId.put(d.getName(),new DeviceType(d.getId(),d.getName(),R.drawable.ic_lamp));
+                                    typeId.put(d.getName(),new DeviceType(d.getId(),d.getName(),R.drawable.ic_lamp, LampDialog.class));
                                     break;
                                 case "oven":
-                                    typeId.put(d.getName(),new DeviceType(d.getId(),d.getName(),R.drawable.ic_oven));
+                                    typeId.put(d.getName(),new DeviceType(d.getId(),d.getName(),R.drawable.ic_oven, OvenDialog.class));
                                     break;
                                 case "ac":
-                                    typeId.put(d.getName(),new DeviceType(d.getId(),d.getName(),R.drawable.ic_ac));
+                                    typeId.put(d.getName(),new DeviceType(d.getId(),d.getName(),R.drawable.ic_ac, AcDialog.class));
                                     break;
                                 case "door":
-                                    typeId.put(d.getName(),new DeviceType(d.getId(),d.getName(),R.drawable.ic_door));
+                                    typeId.put(d.getName(),new DeviceType(d.getId(),d.getName(),R.drawable.ic_door,DoorDialog.class));
                                     break;
                                 case "refrigerator":
-                                    typeId.put(d.getName(),new DeviceType(d.getId(),d.getName(),R.drawable.ic_refrigerator));
+                                    typeId.put(d.getName(),new DeviceType(d.getId(),d.getName(),R.drawable.ic_refrigerator, FridgeDialog.class));
                                     break;
                                 default:
                                     break;
@@ -161,6 +173,17 @@ public class Api {
     public Integer getDeviceTypeIcon(String type){
         DeviceType deviceType = typeId.get(type);
         return deviceType==null?R.drawable.ic_unknown_device:deviceType.getImg();
+    }
+
+    public DialogFragment getDeviceTypeDialog(String type,Context context){
+        DeviceType deviceType=typeId.get(type);
+        DialogFragment dialog;
+        try {
+            dialog=(DialogFragment) deviceType.getDialog().newInstance();
+        }catch (Exception e){
+            dialog=new ErrorOpeningDeviceDialog();
+        }
+        return dialog;
     }
 
     public String getDevices(Response.Listener<ArrayList<Device>> listener, Response.ErrorListener errorListener) {

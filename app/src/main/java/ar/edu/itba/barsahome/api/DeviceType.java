@@ -4,6 +4,7 @@ public class DeviceType {
     private String id;
     private String name;
     private Integer img;
+    Class dialog;
 
     public DeviceType(String id){
         this.id=id;
@@ -20,6 +21,12 @@ public class DeviceType {
         this.img=img;
     }
 
+    public DeviceType(String id,String name,Integer img,Class dialog) {
+        this.id = id;
+        this.name=name;
+        this.img=img;
+        this.dialog=dialog;
+    }
 
     public void setId(String id) {
         this.id = id;
@@ -37,6 +44,13 @@ public class DeviceType {
         this.name = name;
     }
 
+    public Class getDialog() {
+        return dialog;
+    }
+
+    public void setDialog(Class dialog) {
+        this.dialog = dialog;
+    }
 
     public Integer getImg() {
         return img;
