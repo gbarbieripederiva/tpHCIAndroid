@@ -207,13 +207,20 @@ public class Api {
     }
 
 
-
     public String setAction(String deviceId, String actionName,Params[] args, Response.Listener<Object> listener, Response.ErrorListener errorListener){
         String url = URL + "devices/" + deviceId+ "/" + actionName;
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
         GsonRequest<Params[], Object> request =
                 new GsonRequest<>(Request.Method.PUT, url, args, "result", new TypeToken<Object>(){}, headers, listener,errorListener );
+
+    public String addDevice(Device device, Response.Listener<Device> listener, Response.ErrorListener errorListener) {
+        String url = URL + "devices";
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/json");
+        GsonRequest<Device, Device> request =
+                new GsonRequest<>(Request.Method.POST, url, device, "result", new TypeToken<Device>(){}, headers, listener, errorListener);
+
         String uuid = UUID.randomUUID().toString();
         request.setTag(uuid);
         requestQueue.add(request);
@@ -222,10 +229,18 @@ public class Api {
     }
 
 
+    public String addDeviceToRoom(String roomId,String deviceId, Response.Listener<Boolean> listener, Response.ErrorListener errorListener) {
+        String url = URL + "rooms/" + roomId + "/devices/" + deviceId;
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/json");
+        GsonRequest<Room, Boolean> request =
+                new GsonRequest<>(Request.Method.POST, url, null, "result", new TypeToken<Boolean>(){}, headers, listener, errorListener);
+        String uuid = UUID.randomUUID().toString();
+        request.setTag(uuid);
+        requestQueue.add(request);
 
-
-
-
+        return uuid;
+    }
 
     public void cancelRequest(String uuid) {
         if ((uuid != null) && (requestQueue != null)) {

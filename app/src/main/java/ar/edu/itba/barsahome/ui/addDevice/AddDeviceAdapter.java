@@ -55,7 +55,7 @@ public class AddDeviceAdapter extends RecyclerView.Adapter<AddDeviceAdapter.View
     }
 
     public DeviceType getDeviceType(){
-        return positionSelected>0?deviceTypes[positionSelected]:null;
+        return positionSelected>=0?deviceTypes[positionSelected]:null;
     }
 
     @Override

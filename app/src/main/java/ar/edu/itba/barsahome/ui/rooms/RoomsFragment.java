@@ -57,28 +57,17 @@ public class    RoomsFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         //si no hay rooms muestra obteniendo sino previzualiza los que ya hay
-        if(this.rooms.length>0){
-            recyclerView.setVisibility(View.VISIBLE);
-            textView.setVisibility(View.GONE);
-        }else{
-            recyclerView.setVisibility(View.GONE);
-            textView.setVisibility(View.VISIBLE);
-        }
+        recyclerView.setVisibility(View.GONE);
+        textView.setVisibility(View.VISIBLE);
         //busca los rooms
         Api.getInstance(getActivity()).getRooms(
                 new Response.Listener<ArrayList<Room>>() {
                     @Override
                     public void onResponse(ArrayList<Room> response) {
                         rooms=response.toArray(new Room[response.size()]);
-                        if(rooms.length>0){
-                            adapter.changeDataSet(rooms);
-                            recyclerView.setVisibility(View.VISIBLE);
-                            textView.setVisibility(View.GONE);
-                        }else{
-                            textView.setText(getString(R.string.no_rooms));
-                            textView.setVisibility(View.VISIBLE);
-                            recyclerView.setVisibility(View.GONE);
-                        }
+                        adapter.changeDataSet(rooms);
+                        recyclerView.setVisibility(View.VISIBLE);
+                        textView.setVisibility(View.GONE);
                     }
                 }, new Response.ErrorListener() {
                     @Override
