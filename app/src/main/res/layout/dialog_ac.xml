@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Spinner
+        android:id="@+id/ac_vertical_spinner"
+        android:layout_width="169dp"
+        android:layout_height="34dp"
+        app:layout_constraintBottom_toTopOf="@+id/ac_hor_spinner"
+        app:layout_constraintEnd_toEndOf="@+id/ac_temp_seekbar"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/ac_temp_seekbar"
+        app:layout_constraintTop_toTopOf="@+id/guideline5" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <TextView
+        android:id="@+id/ac_title"
+        android:layout_width="213dp"
+        android:layout_height="67dp"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+        app:layout_constraintBottom_toTopOf="@+id/guideline5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.197" />
+
+    <Switch
+        android:id="@+id/ac_switch"
+        android:layout_width="159dp"
+        android:layout_height="51dp"
+        android:text="Apagar/Encender"
+        app:layout_constraintBottom_toTopOf="@+id/guideline5"
+        app:layout_constraintEnd_toEndOf="@+id/ac_mode_spinner"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/ac_mode_spinner"
+        app:layout_constraintTop_toBottomOf="@+id/ac_title"
+        app:layout_constraintVertical_bias="0.209" />
+
+    <SeekBar
+        android:id="@+id/ac_temp_seekbar"
+        android:layout_width="177dp"
+        android:layout_height="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toBottomOf="@+id/ac_title"
+        app:layout_constraintVertical_bias="0.989" />
+
+    <TextView
+        android:id="@+id/temp_text"
+        android:layout_width="142dp"
+        android:layout_height="52dp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@+id/ac_temp_seekbar"
+        app:layout_constraintEnd_toEndOf="@+id/ac_vertical_text"
+        app:layout_constraintStart_toStartOf="@+id/ac_vertical_text"
+        app:layout_constraintTop_toTopOf="@+id/ac_temp_seekbar" />
+
+    <TextView
+        android:id="@+id/ac_vertical_text"
+        android:layout_width="139dp"
+        android:layout_height="53dp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@+id/ac_vertical_spinner"
+        app:layout_constraintEnd_toEndOf="@+id/ac_horizontal_text"
+        app:layout_constraintHorizontal_bias="0.477"
+        app:layout_constraintStart_toStartOf="@+id/ac_horizontal_text"
+        app:layout_constraintTop_toTopOf="@+id/ac_vertical_spinner"
+        app:layout_constraintVertical_bias="0.473" />
+
+    <TextView
+        android:id="@+id/ac_horizontal_text"
+        android:layout_width="139dp"
+        android:layout_height="53dp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@+id/ac_hor_spinner"
+        app:layout_constraintEnd_toEndOf="@+id/ac_speed_text"
+        app:layout_constraintStart_toStartOf="@+id/ac_speed_text"
+        app:layout_constraintTop_toTopOf="@+id/ac_hor_spinner" />
+
+    <Spinner
+        android:id="@+id/ac_hor_spinner"
+        android:layout_width="169dp"
+        android:layout_height="34dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/ac_vertical_spinner"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/ac_vertical_spinner"
+        app:layout_constraintTop_toTopOf="@+id/guideline5"
+        app:layout_constraintVertical_bias="0.471" />
+
+    <TextView
+        android:id="@+id/ac_speed_text"
+        android:layout_width="139dp"
+        android:layout_height="53dp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@+id/ac_speed_spinner"
+        app:layout_constraintEnd_toStartOf="@+id/guideline6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ac_speed_spinner" />
+
+    <Spinner
+        android:id="@+id/ac_speed_spinner"
+        android:layout_width="169dp"
+        android:layout_height="34dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/ac_hor_spinner"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/ac_hor_spinner"
+        app:layout_constraintTop_toBottomOf="@+id/ac_hor_spinner" />
+
+    <TextView
+        android:id="@+id/ac_temp_value"
+        android:layout_width="0dp"
+        android:layout_height="22dp"
+        app:layout_constraintBottom_toTopOf="@+id/ac_temp_seekbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toBottomOf="@+id/ac_mode_spinner"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/ac_mode_text"
+        android:layout_width="142dp"
+        android:layout_height="52dp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@+id/ac_mode_spinner"
+        app:layout_constraintEnd_toEndOf="@+id/temp_text"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/temp_text"
+        app:layout_constraintTop_toTopOf="@+id/ac_mode_spinner" />
+
+    <Spinner
+        android:id="@+id/ac_mode_spinner"
+        android:layout_width="169dp"
+        android:layout_height="34dp"
+        app:layout_constraintBottom_toTopOf="@+id/ac_temp_seekbar"
+        app:layout_constraintEnd_toEndOf="@+id/ac_temp_seekbar"
+        app:layout_constraintStart_toStartOf="@+id/ac_temp_seekbar"
+        app:layout_constraintTop_toBottomOf="@+id/ac_switch"
+        app:layout_constraintVertical_bias="0.303" />
+
+    <TextView
+        android:id="@+id/accept"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:textColor="#33bbff"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="@+id/cancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.892"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toTopOf="@+id/cancel"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:textColor="#33bbff"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline6"
+        app:layout_constraintHorizontal_bias="0.105"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ac_speed_text"
+        app:layout_constraintVertical_bias="0.636" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

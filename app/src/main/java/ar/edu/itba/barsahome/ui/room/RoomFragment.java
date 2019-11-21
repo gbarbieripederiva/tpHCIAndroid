@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,6 +37,7 @@ public class RoomFragment extends Fragment {
         this.roomName=RoomFragmentArgs.fromBundle(getArguments()).getRoomName();
         this.devices=new Device[0];
         ((MainActivity)getActivity()).setActionBarTitle(this.roomName);
+
     }
 
     @Nullable
@@ -51,6 +53,7 @@ public class RoomFragment extends Fragment {
         final RoomAdapter adapter = new RoomAdapter(this.devices,this.roomName,this.roomId);
         recyclerView.setAdapter(adapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+
 
         Api.getInstance(getContext()).getDevicesInRoom(this.roomId,new Response.Listener<ArrayList<Device>>() {
             @Override

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/value_fridge_temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/fridge_seekbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/fridge_spinner" />
+
+    <TextView
+        android:id="@+id/freezer_text"
+        android:layout_width="162dp"
+        android:layout_height="49dp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@+id/freezer_seekbar"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/freezer_seekbar"
+        app:layout_constraintVertical_bias="0.674" />
+
+    <SeekBar
+        android:id="@+id/freezer_seekbar"
+        android:layout_width="168dp"
+        android:layout_height="31dp"
+        android:layout_marginTop="184dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/fridge_seekbar"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/fridge_seekbar"
+        app:layout_constraintTop_toBottomOf="@+id/fridge_spinner"
+        app:layout_constraintVertical_bias="0.049" />
+
+    <TextView
+        android:id="@+id/fridge_title"
+        android:layout_width="410dp"
+        android:layout_height="65dp"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <Spinner
+        android:id="@+id/fridge_spinner"
+        android:layout_width="237dp"
+        android:layout_height="42dp"
+        android:gravity="center"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.686"
+        app:layout_constraintStart_toEndOf="@+id/fridge_mode"
+        app:layout_constraintTop_toBottomOf="@+id/fridge_title"
+        app:layout_constraintVertical_bias="0.229" />
+
+    <TextView
+        android:id="@+id/fridge_mode"
+        android:layout_width="70dp"
+        android:layout_height="35dp"
+        android:gravity="center"
+        android:text="Modo"
+        app:layout_constraintBottom_toBottomOf="@+id/fridge_spinner"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintHorizontal_bias="0.389"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/fridge_spinner"
+        app:layout_constraintVertical_bias="0.234" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+
+    <SeekBar
+        android:id="@+id/fridge_seekbar"
+        android:layout_width="168dp"
+        android:layout_height="31dp"
+        android:layout_marginTop="56dp"
+        app:layout_constraintBottom_toTopOf="@+id/freezer_seekbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.567"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/fridge_spinner"
+        app:layout_constraintVertical_bias="0.192" />
+
+    <TextView
+        android:id="@+id/fridge_text"
+        android:layout_width="162dp"
+        android:layout_height="49dp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@+id/fridge_seekbar"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/fridge_seekbar" />
+
+    <TextView
+        android:id="@+id/value_freezer_temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/freezer_seekbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/fridge_seekbar" />
+
+    <TextView
+        android:id="@+id/cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#33bbff"
+        app:layout_constraintBottom_toBottomOf="@+id/accept"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintHorizontal_bias="0.257"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/accept"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/accept"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#33bbff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.653"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/freezer_seekbar" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

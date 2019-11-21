@@ -24,7 +24,7 @@ import ar.edu.itba.barsahome.R;
 import ar.edu.itba.barsahome.api.Api;
 import ar.edu.itba.barsahome.api.Room;
 
-public class RoomsFragment extends Fragment {
+public class    RoomsFragment extends Fragment {
     private Room[] rooms;
 
     @Override

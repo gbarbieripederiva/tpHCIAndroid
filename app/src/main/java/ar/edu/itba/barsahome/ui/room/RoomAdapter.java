@@ -1,5 +1,7 @@
 package ar.edu.itba.barsahome.ui.room;
 
+import android.app.Dialog;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,12 +9,15 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import ar.edu.itba.barsahome.R;
 import ar.edu.itba.barsahome.api.Api;
 import ar.edu.itba.barsahome.api.Device;
+import ar.edu.itba.barsahome.ui.devices_dialogs.AcDialog;
 
 public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
 
@@ -48,8 +53,18 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
                 holder.button.setImageDrawable(holder.button.getContext().getDrawable(drawable));
             else
                 holder.button.setImageDrawable(holder.button.getContext().getDrawable(R.drawable.ic_menu_camera));
-
-            holder.button.setOnClickListener(null);
+            holder.button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle args=new Bundle();
+                    args.putString("deviceId",devices[position].getId());
+                    DialogFragment dialog=Api
+                            .getInstance(v.getContext())
+                            .getDeviceTypeDialog(devices[position].getType().getName(),v.getContext());
+                    dialog.setArguments(args);
+                    dialog.show(((AppCompatActivity)v.getContext()).getSupportFragmentManager(),"deviceDialog");
+                }
+            });
         }else{
             holder.textview.setText("");
             holder.button.setImageDrawable(holder.button.getContext().getDrawable(R.drawable.ic_add));

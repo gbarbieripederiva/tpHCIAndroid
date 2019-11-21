@@ -1,7 +1,11 @@
 package ar.edu.itba.barsahome.api;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.util.Log;
 import android.util.Pair;
+
+import androidx.fragment.app.DialogFragment;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -18,6 +22,13 @@ import java.util.UUID;
 
 import ar.edu.itba.barsahome.BuildConfig;
 import ar.edu.itba.barsahome.R;
+import ar.edu.itba.barsahome.ui.devices_dialogs.AcDialog;
+import ar.edu.itba.barsahome.ui.devices_dialogs.BlindDialog;
+import ar.edu.itba.barsahome.ui.devices_dialogs.DoorDialog;
+import ar.edu.itba.barsahome.ui.devices_dialogs.ErrorOpeningDeviceDialog;
+import ar.edu.itba.barsahome.ui.devices_dialogs.FridgeDialog;
+import ar.edu.itba.barsahome.ui.devices_dialogs.LampDialog;
+import ar.edu.itba.barsahome.ui.devices_dialogs.OvenDialog;
 
 
 public class Api {
@@ -29,6 +40,7 @@ public class Api {
     private final String URL="http://"+BuildConfig.api_ip_port+"/api/";
 
     private Api(Context context) {
+        //TODO:podriamos instanciar los devicetypes sin nada y cuando retorna la api agregarle datos
         this.requestQueue = VolleySingleton.getInstance(context).getRequestQueue();
         getDeviceTypes(
                 new Response.Listener<ArrayList<DeviceType>>() {
@@ -37,22 +49,22 @@ public class Api {
                         for(DeviceType d:response){
                             switch (d.getName()){
                                 case "blinds":
-                                    typeId.put(d.getName(),new DeviceType(d.getId(),d.getName(),R.drawable.ic_blinds));
+                                    typeId.put(d.getName(),new DeviceType(d.getId(),d.getName(),R.drawable.ic_blinds, BlindDialog.class));
                                     break;
                                 case "lamp":
-                                    typeId.put(d.getName(),new DeviceType(d.getId(),d.getName(),R.drawable.ic_lamp));
+                                    typeId.put(d.getName(),new DeviceType(d.getId(),d.getName(),R.drawable.ic_lamp, LampDialog.class));
                                     break;
                                 case "oven":
-                                    typeId.put(d.getName(),new DeviceType(d.getId(),d.getName(),R.drawable.ic_oven));
+                                    typeId.put(d.getName(),new DeviceType(d.getId(),d.getName(),R.drawable.ic_oven, OvenDialog.class));
                                     break;
                                 case "ac":
-                                    typeId.put(d.getName(),new DeviceType(d.getId(),d.getName(),R.drawable.ic_ac));
+                                    typeId.put(d.getName(),new DeviceType(d.getId(),d.getName(),R.drawable.ic_ac, AcDialog.class));
                                     break;
                                 case "door":
-                                    typeId.put(d.getName(),new DeviceType(d.getId(),d.getName(),R.drawable.ic_door));
+                                    typeId.put(d.getName(),new DeviceType(d.getId(),d.getName(),R.drawable.ic_door,DoorDialog.class));
                                     break;
                                 case "refrigerator":
-                                    typeId.put(d.getName(),new DeviceType(d.getId(),d.getName(),R.drawable.ic_refrigerator));
+                                    typeId.put(d.getName(),new DeviceType(d.getId(),d.getName(),R.drawable.ic_refrigerator, FridgeDialog.class));
                                     break;
                                 default:
                                     break;
@@ -163,6 +175,17 @@ public class Api {
         return deviceType==null?R.drawable.ic_unknown_device:deviceType.getImg();
     }
 
+    public DialogFragment getDeviceTypeDialog(String type,Context context){
+        DeviceType deviceType=typeId.get(type);
+        DialogFragment dialog;
+        try {
+            dialog=(DialogFragment) deviceType.getDialog().newInstance();
+        }catch (Exception e){
+            dialog=new ErrorOpeningDeviceDialog();
+        }
+        return dialog;
+    }
+
     public String getDevices(Response.Listener<ArrayList<Device>> listener, Response.ErrorListener errorListener) {
         String url = URL + "devices/";
         GsonRequest<Object, ArrayList<Device>> request =
@@ -183,18 +206,28 @@ public class Api {
         return uuid;
     }
 
+
+    public String setAction(String deviceId, String actionName,Params[] args, Response.Listener<Object> listener, Response.ErrorListener errorListener){
+        String url = URL + "devices/" + deviceId+ "/" + actionName;
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/json");
+        GsonRequest<Params[], Object> request =
+                new GsonRequest<>(Request.Method.PUT, url, args, "result", new TypeToken<Object>(){}, headers, listener,errorListener );
+
     public String addDevice(Device device, Response.Listener<Device> listener, Response.ErrorListener errorListener) {
         String url = URL + "devices";
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
         GsonRequest<Device, Device> request =
                 new GsonRequest<>(Request.Method.POST, url, device, "result", new TypeToken<Device>(){}, headers, listener, errorListener);
+
         String uuid = UUID.randomUUID().toString();
         request.setTag(uuid);
         requestQueue.add(request);
 
         return uuid;
     }
+
 
     public String addDeviceToRoom(String roomId,String deviceId, Response.Listener<Boolean> listener, Response.ErrorListener errorListener) {
         String url = URL + "rooms/" + roomId + "/devices/" + deviceId;
@@ -209,10 +242,11 @@ public class Api {
         return uuid;
     }
 
-
     public void cancelRequest(String uuid) {
         if ((uuid != null) && (requestQueue != null)) {
             requestQueue.cancelAll(uuid);
         }
     }
+
+
 }

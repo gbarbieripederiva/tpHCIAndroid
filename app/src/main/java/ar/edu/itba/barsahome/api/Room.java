@@ -1,5 +1,7 @@
 package ar.edu.itba.barsahome.api;
 
+import android.widget.Button;
+
 public class Room {
     private String id;
     private String name;

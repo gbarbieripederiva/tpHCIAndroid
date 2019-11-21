@@ -16,8 +16,84 @@
     <string name="add_device">Añadir dispositivo</string>
     <string name="type">Tipo</string>
     <string name="listo">Listo!</string>
+    <string name="mode_text">Modo</string>
+    <string name="ac_vertical_angle_text">Desplazamiento vertical de Aspa</string>
+    <string name="ac_horizontal_angle_text">Desplazamiento horizontal de Aspa</string>
+    <string name="ac_speed_text">Velocidad del ventilador</string>
+    <string name="temp_text">Temperatura</string>
+    <string name="oven_grill_mode_text">Modo grill</string>
+    <string name="oven_conv_mode_text">Modo convección</string>
+    <string name="oven_heat_source_text">Fuente de calor</string>
+    <string name="fridge_temp_text">Temperatura heladera</string>
+    <string name="freeze_temp_text">Temperatura freezer</string>
+    <string name="accept">Aceptar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="accept_message">Dispositivo cambiando de estado</string>
+    <string name="light_intensity_text">Intensidad de la luz</string>
+    <string name="show_color">Seleccionar color</string>
+    <string name="error_opening_device">Error abriendo el dispositivo</string>
+    <string-array name="fridge_opt">
+        <item>Normal</item>
+        <item>Fiesta</item>
+        <item>Vacaciones</item>
+    </string-array>
+    
+
+    <string-array name="ac_mode">
+        <item>Frío</item>
+        <item>Calor</item>
+        <item>Ventilación</item>
+    </string-array>
+
+    
+    <string-array name="ac_vertical_angle">
+        <item>Automático</item>
+        <item>22°</item>
+        <item>45°</item>
+        <item>67°</item>
+        <item>90°</item>
+    </string-array>
+    
+    <string-array name="ac_horizontal_angle">
+        <item>Automático</item>
+        <item>-90°</item>
+        <item>-45°</item>
+        <item>0°</item>
+        <item>45°</item>
+        <item>90°</item>
+    </string-array>
+
+    <string-array name="ac_speed">
+        <item>Automático</item>
+        <item>25%</item>
+        <item>50%</item>
+        <item>75%</item>
+        <item>100%</item>
+    </string-array>
+
+
+    <string-array name="grill_mode">
+        <item>Apagado</item>
+        <item>Económico</item>
+        <item>Convencional</item>
+    </string-array>
+
+    <string-array name="conv_mode">
+        <item>Apagado</item>
+        <item>Económico</item>
+        <item>Convencional</item>
+    </string-array>
+
+    <string-array name="heat_source">
+        <item>Convencional</item>
+        <item>Abajo</item>
+        <item>Arriba</item>
+    </string-array>
+
+
     <string name="wrong_name_format">El nombre debe ser de entre 3 y 60 caracteres. Solo letras, numeros, espacios y guiones bajos</string>
     <string name="no_device_to_add_selected">Se debe seleccionar un tipo de dispositvo</string>
     <string name="error_creating_device">Error en la creacion del dispositivo</string>
     <string name="success_creating_device">El dispostivo se creo con exito</string>
+
 </resources>
