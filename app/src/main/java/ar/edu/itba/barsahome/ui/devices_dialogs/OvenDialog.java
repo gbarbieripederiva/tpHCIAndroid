@@ -243,10 +243,11 @@ public class OvenDialog extends DialogFragment {
 
 
     private void api_setTemperature(String devId, Double temp){
-        Params[] args = new Params[1];
-        args[0] = new Params(null, null,null,temp);
+        Double[] args = new Double[1];
+        args[0] = temp;
 
-        Api.getInstance(getActivity()).setAction(devId, "setTemperature", args, new Response.Listener<Object>() {
+
+        Api.getInstance(getActivity()).setActionDoub(devId, "setTemperature", args, new Response.Listener<Object>() {
             @Override
             public void onResponse(Object response) {
 
@@ -260,10 +261,10 @@ public class OvenDialog extends DialogFragment {
     }
 
     private void api_setHeat(String devId, String source){
-        Params[] args = new Params[1];
-        args[0] = new Params(source, null, null, null);
+        String[] args = new String[1];
+        args[0] = source;
 
-        Api.getInstance(getActivity()).setAction(devId, "setHeat", args,new Response.Listener<Object>() {
+        Api.getInstance(getActivity()).setActionString(devId, "setHeat", args,new Response.Listener<Object>() {
             @Override
             public void onResponse(Object response) {
 
@@ -277,10 +278,10 @@ public class OvenDialog extends DialogFragment {
     }
 
     private void api_setGrill(String devId, String grill){
-        Params[] args = new Params[1];
-        args[0] = new Params(grill, null, null, null);
+        String[] args = new String[1];
+        args[0] = grill;
 
-        Api.getInstance(getActivity()).setAction(devId, "setGrill", args,new Response.Listener<Object>() {
+                Api.getInstance(getActivity()).setActionString(devId, "setGrill", args,new Response.Listener<Object>() {
             @Override
             public void onResponse(Object response) {
 
@@ -294,10 +295,10 @@ public class OvenDialog extends DialogFragment {
     }
 
     private void api_setConvection(String devId, String conv){
-        Params[] args = new Params[1];
-        args[0] = new Params(conv, null, null, null);
+        String[] args = new String[1];
+        args[0] = conv;
 
-        Api.getInstance(getActivity()).setAction(devId, "setConvection", args,new Response.Listener<Object>() {
+                Api.getInstance(getActivity()).setActionString(devId, "setConvection", args,new Response.Listener<Object>() {
             @Override
             public void onResponse(Object response) {
 

@@ -257,4 +257,67 @@ public class Api {
     }
 
 
+    public String setActionInt(String deviceId, String actionName,Integer[] args, Response.Listener<Object> listener, Response.ErrorListener errorListener){
+        String url = URL + "devices/" + deviceId + "/" + actionName;
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/json");
+        GsonRequest<Integer[], Object> request =
+                new GsonRequest<>(Request.Method.PUT, url, args, "result", new TypeToken<Object>() {
+                }, headers, listener, errorListener);
+
+        String uuid = UUID.randomUUID().toString();
+        request.setTag(uuid);
+        requestQueue.add(request);
+
+        return uuid;
+    }
+
+    public String setActionBoolean(String deviceId, String actionName,Boolean[] args, Response.Listener<Object> listener, Response.ErrorListener errorListener){
+        String url = URL + "devices/" + deviceId + "/" + actionName;
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/json");
+        GsonRequest<Boolean[], Object> request =
+                new GsonRequest<>(Request.Method.PUT, url, args, "result", new TypeToken<Object>() {
+                }, headers, listener, errorListener);
+
+        String uuid = UUID.randomUUID().toString();
+        request.setTag(uuid);
+        requestQueue.add(request);
+
+        return uuid;
+    }
+
+    public String setActionString(String deviceId, String actionName,String[] args, Response.Listener<Object> listener, Response.ErrorListener errorListener){
+        String url = URL + "devices/" + deviceId + "/" + actionName;
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/json");
+        GsonRequest<String[], Object> request =
+                new GsonRequest<>(Request.Method.PUT, url, args, "result", new TypeToken<Object>() {
+                }, headers, listener, errorListener);
+
+        String uuid = UUID.randomUUID().toString();
+        request.setTag(uuid);
+        requestQueue.add(request);
+
+        return uuid;
+    }
+
+    public String setActionDoub(String deviceId, String actionName,Double[] args, Response.Listener<Object> listener, Response.ErrorListener errorListener){
+        String url = URL + "devices/" + deviceId + "/" + actionName;
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/json");
+        GsonRequest<Double[], Object> request =
+                new GsonRequest<>(Request.Method.PUT, url, args, "result", new TypeToken<Object>() {
+                }, headers, listener, errorListener);
+
+        String uuid = UUID.randomUUID().toString();
+        request.setTag(uuid);
+        requestQueue.add(request);
+
+        return uuid;
+    }
+
+
+
+
 }

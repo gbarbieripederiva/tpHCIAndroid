@@ -228,12 +228,12 @@ public class AcDialog extends DialogFragment {
                 else {
                     api_turnOff(getArguments().getString("deviceId"));
                 }
-
+                api_setTemperature(getArguments().getString("deviceId") ,current);
                 api_changeSpeed(getArguments().getString("deviceId") , acSpeedArray[currentSpeed]);
                 api_changeVertical(getArguments().getString("deviceId"), acVertArray[currentVert]);
                 api_changeHorizontal(getArguments().getString("deviceId") , acHorArray[currentHor]);
                 api_setMode(getArguments().getString("deviceId") , acModeArray[currentMode]);
-                api_setTemperature(getArguments().getString("deviceId") ,current);
+
 
                 getDialog().dismiss();
             }
@@ -252,10 +252,10 @@ public class AcDialog extends DialogFragment {
 
 
     private void api_changeSpeed(String devId, String speed){
-        Params[] args = new Params[1];
-        args[0] = new Params(speed, null,null,null);
+        String[] args = new String[1];
+        args[0] = speed;
 
-        Api.getInstance(getActivity()).setAction(devId, "setFanSpeed", args, new Response.Listener<Object>() {
+        Api.getInstance(getActivity()).setActionString(devId, "setFanSpeed", args, new Response.Listener<Object>() {
             @Override
             public void onResponse(Object response) {
 
@@ -269,10 +269,10 @@ public class AcDialog extends DialogFragment {
     }
 
     private void api_changeVertical(String devId, String vert){
-        Params[] args = new Params[1];
-        args[0] = new Params(vert, null,null,null);
+        String[] args = new String[1];
+        args[0] = vert;
 
-        Api.getInstance(getActivity()).setAction(devId, "setVerticalSwing", args, new Response.Listener<Object>() {
+        Api.getInstance(getActivity()).setActionString(devId, "setVerticalSwing", args, new Response.Listener<Object>() {
             @Override
             public void onResponse(Object response) {
 
@@ -285,10 +285,9 @@ public class AcDialog extends DialogFragment {
         });
     }
     private void api_changeHorizontal(String devId, String hor){
-        Params[] args = new Params[1];
-        args[0] = new Params(hor, null,null,null);
-
-        Api.getInstance(getActivity()).setAction(devId, "setHorizontalSwing", args, new Response.Listener<Object>() {
+        String[] args = new String[1];
+        args[0] = hor;
+        Api.getInstance(getActivity()).setActionString(devId, "setHorizontalSwing", args, new Response.Listener<Object>() {
             @Override
             public void onResponse(Object response) {
 
@@ -302,10 +301,10 @@ public class AcDialog extends DialogFragment {
     }
 
     private void api_setMode(String devId, String mode){
-        Params[] args = new Params[1];
-        args[0] = new Params(mode, null,null,null);
+        String[] args = new String[1];
+        args[0] = mode;
 
-        Api.getInstance(getActivity()).setAction(devId, "setMode", args, new Response.Listener<Object>() {
+        Api.getInstance(getActivity()).setActionString(devId, "setMode", args, new Response.Listener<Object>() {
             @Override
             public void onResponse(Object response) {
 
@@ -347,10 +346,9 @@ public class AcDialog extends DialogFragment {
     }
 
     private void api_setTemperature(String devId, Double temp){
-        Params[] args = new Params[1];
-        args[0] = new Params(null, null,null,temp);
-
-        Api.getInstance(getActivity()).setAction(devId, "setTemperature", args, new Response.Listener<Object>() {
+        Double[] args = new Double[1];
+        args[0] = temp;
+        Api.getInstance(getActivity()).setActionDoub(devId, "setTemperature", args, new Response.Listener<Object>() {
             @Override
             public void onResponse(Object response) {
 

@@ -5,7 +5,7 @@ public class Params {
     private String strg;
     private Integer intg;
     private Boolean bool;
-    private Double doub;
+    private double doub;
 
     public Params(String strg, Integer intg, Boolean bool, Double doub){
         this.strg = strg;

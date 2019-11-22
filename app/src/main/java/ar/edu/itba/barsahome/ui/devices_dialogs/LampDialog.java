@@ -148,10 +148,10 @@ public class LampDialog extends DialogFragment {
 
     private void api_setBrightness(String devId, Integer brightness){
 
-        Params[] params = new Params[1];
-        params[0] =  new Params(null,brightness,null,null);
+        Integer[] args = new Integer[1];
+        args[0] = brightness;
 
-        Api.getInstance(getActivity()).setAction(devId, "setBrightness",params, new Response.Listener<Object>() {
+        Api.getInstance(getActivity()).setActionInt(devId, "setBrightness",args, new Response.Listener<Object>() {
             @Override
             public void onResponse(Object response) {
 
@@ -167,9 +167,9 @@ public class LampDialog extends DialogFragment {
 
 
     private void api_setColor(String devId, String color){
-        Params[] params = new Params[1];
-        params[0] = new Params(color, null, null, null);
-        Api.getInstance(getActivity()).setAction(devId, "setColor",params, new Response.Listener<Object>() {
+        String[] args = new String[1];
+        args[0] = color;
+        Api.getInstance(getActivity()).setActionString(devId, "setColor",args, new Response.Listener<Object>() {
             @Override
             public void onResponse(Object response) {
 

@@ -167,10 +167,10 @@ public class FridgeDialog extends DialogFragment {
 
     private void api_setFridgeTemp(String devId, Double temp){
 
-        Params[] args = new Params[1];
-        args[0] = new Params(null, null, null, temp);
+        Double[] args = new Double[1];
+        args[0] = temp;
 
-        Api.getInstance(getActivity()).setAction(devId, "setTemperature", args, new Response.Listener<Object>() {
+        Api.getInstance(getActivity()).setActionDoub(devId, "setTemperature", args, new Response.Listener<Object>() {
             @Override
             public void onResponse(Object response) {
 
@@ -186,10 +186,10 @@ public class FridgeDialog extends DialogFragment {
 
     private void api_setFreezerTemp(String devId, Double temp){
 
-        Params[] args = new Params[1];
-        args[0] = new Params(null, null, null, temp);
+        Double[] args = new Double[1];
+        args[0] = temp;
 
-        Api.getInstance(getActivity()).setAction(devId, "setFreezerTemperature", args, new Response.Listener<Object>() {
+        Api.getInstance(getActivity()).setActionDoub(devId, "setFreezerTemperature", args, new Response.Listener<Object>() {
             @Override
             public void onResponse(Object response) {
 
@@ -204,10 +204,10 @@ public class FridgeDialog extends DialogFragment {
     }
 
     private void api_setMode(String devId, String mode){
-      Params[] args = new Params[1];
-      args[0] = new Params(mode, null, null, null);
+        String[] args = new String[1];
+        args[0] = mode;
 
-        Api.getInstance(getActivity()).setAction(devId, "setMode", args, new Response.Listener<Object>() {
+        Api.getInstance(getActivity()).setActionString(devId, "setMode", args, new Response.Listener<Object>() {
             @Override
             public void onResponse(Object response) {
 
