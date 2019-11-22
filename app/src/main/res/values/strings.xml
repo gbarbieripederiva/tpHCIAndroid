@@ -35,6 +35,7 @@
     <string name="notification">Cambio en el estado de un dispositivo</string>
     <string name="notification_title">Modificación de estado</string>
     <string name="notification_text">Ha habido un cambio de estado de un dispositivo</string>
+    <string name="getting_routines_from_api">Obteniendo rutinas de la API</string>
 
 
     <string-array name="fridge_opt">

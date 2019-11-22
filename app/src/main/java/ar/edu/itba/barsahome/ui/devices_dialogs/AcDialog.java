@@ -23,12 +23,14 @@ import androidx.fragment.app.DialogFragment;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import ar.edu.itba.barsahome.BarsaApp;
 import ar.edu.itba.barsahome.R;
 import ar.edu.itba.barsahome.api.Api;
 import ar.edu.itba.barsahome.api.Device;
+import ar.edu.itba.barsahome.api.Routine;
 
 public class AcDialog extends DialogFragment {
     private NotificationManagerCompat notManager;
@@ -65,6 +67,19 @@ public class AcDialog extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+
+         Api.getInstance(getActivity()).getRoutines(new Response.Listener<ArrayList<Routine>>() {
+             @Override
+             public void onResponse(ArrayList<Routine> response) {
+                 System.out.println(response.get(0).getActions().length + "jaja");
+             }
+         }, new Response.ErrorListener() {
+             @Override
+             public void onErrorResponse(VolleyError error) {
+                 System.out.println("error");
+             }
+         });
 
         notManager = NotificationManagerCompat.from(getActivity());
 
@@ -334,8 +349,6 @@ public class AcDialog extends DialogFragment {
                         break;
                 }
 
-                System.out.println(response.getVerticalSwing().toLowerCase());
-                System.out.println(currentVert);
 
 
                 acTemp.setProgress((int) ((current - min) * 100 / (max - min)));

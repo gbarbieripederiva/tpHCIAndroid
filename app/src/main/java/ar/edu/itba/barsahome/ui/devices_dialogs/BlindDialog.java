@@ -21,10 +21,13 @@ import androidx.fragment.app.DialogFragment;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
+import java.util.ArrayList;
+
 import ar.edu.itba.barsahome.BarsaApp;
 import ar.edu.itba.barsahome.R;
 import ar.edu.itba.barsahome.api.Api;
 import ar.edu.itba.barsahome.api.Device;
+import ar.edu.itba.barsahome.api.Routine;
 
 public class BlindDialog extends DialogFragment {
     private NotificationManagerCompat notManager;
@@ -49,6 +52,8 @@ public class BlindDialog extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+
 
         notManager = NotificationManagerCompat.from(getActivity());
 

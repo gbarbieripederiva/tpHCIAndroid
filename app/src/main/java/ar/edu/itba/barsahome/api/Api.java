@@ -328,5 +328,20 @@ public class Api {
     }
 
 
+    public String getRoutines(Response.Listener<ArrayList<Routine>> listener, Response.ErrorListener errorListener){
+        String url = URL + "routines/";
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/json");
+        GsonRequest<Object, ArrayList<Routine>> request =
+                new GsonRequest<>(Request.Method.GET, url, null, "result", new TypeToken<ArrayList<Routine>>(){}, headers, listener, errorListener);
+        String uuid = UUID.randomUUID().toString();
+        request.setTag(uuid);
+        requestQueue.add(request);
+        return uuid;
+
+
+    }
+
+
 
 }
