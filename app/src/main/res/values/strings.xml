@@ -47,7 +47,7 @@
 
     
     <string-array name="ac_vertical_angle">
-        <item>Automático</item>
+        <item>Auto</item>
         <item>22°</item>
         <item>45°</item>
         <item>67°</item>
@@ -55,7 +55,7 @@
     </string-array>
     
     <string-array name="ac_horizontal_angle">
-        <item>Automático</item>
+        <item>Auto</item>
         <item>-90°</item>
         <item>-45°</item>
         <item>0°</item>
@@ -64,7 +64,7 @@
     </string-array>
 
     <string-array name="ac_speed">
-        <item>Automático</item>
+        <item>Auto</item>
         <item>25%</item>
         <item>50%</item>
         <item>75%</item>

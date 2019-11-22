@@ -19,7 +19,6 @@ import com.android.volley.VolleyError;
 
 import ar.edu.itba.barsahome.R;
 import ar.edu.itba.barsahome.api.Api;
-import ar.edu.itba.barsahome.api.Params;
 import yuku.ambilwarna.AmbilWarnaDialog;
 
 public class LampDialog extends DialogFragment {

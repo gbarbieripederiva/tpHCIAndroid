@@ -19,9 +19,11 @@ import androidx.fragment.app.DialogFragment;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
+import java.util.Arrays;
+
 import ar.edu.itba.barsahome.R;
 import ar.edu.itba.barsahome.api.Api;
-import ar.edu.itba.barsahome.api.Params;
+import ar.edu.itba.barsahome.api.Device;
 
 public class AcDialog extends DialogFragment {
     private TextView acTitle;
@@ -47,7 +49,7 @@ public class AcDialog extends DialogFragment {
     private String[] acSpeedArray;
     private String[] acVertArray;
     private String[] acHorArray;
-    private Double min,max,current;
+    private Double min = 18.0, max = 38.0, current;
     private Integer currentMode, currentVert, currentHor, currentSpeed;
     private boolean on;
 
@@ -55,6 +57,7 @@ public class AcDialog extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
 
         title = "AC";
         min = 18.0;
@@ -67,15 +70,9 @@ public class AcDialog extends DialogFragment {
         acVertArray = getResources().getStringArray(R.array.ac_vertical_angle);
         acHorArray = getResources().getStringArray(R.array.ac_horizontal_angle);
 
-        currentHor = 1;
-        currentMode = 2;
-        currentSpeed = 0;
-        currentVert = 1;
-
-
-
 
         View view = inflater.inflate(R.layout.dialog_ac, container, false);
+
 
         acTitle = (TextView) view.findViewById(R.id.ac_title);
         acTitle.setText(title);
@@ -96,10 +93,9 @@ public class AcDialog extends DialogFragment {
         acTempText.setText(getText(R.string.temp_text));
 
         acMode = (Spinner) view.findViewById(R.id.ac_mode_spinner);
-        ArrayAdapter<String> modeAdapter =  new ArrayAdapter<String>(getActivity(),
+        ArrayAdapter<String> modeAdapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_spinner_item, acModeArray);
         acMode.setAdapter(modeAdapter);
-        acMode.setSelection(currentMode);
         acMode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -114,10 +110,9 @@ public class AcDialog extends DialogFragment {
 
 
         acHor = (Spinner) view.findViewById(R.id.ac_hor_spinner);
-        ArrayAdapter<String> horAdapter =  new ArrayAdapter<String>(getActivity(),
+        ArrayAdapter<String> horAdapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_spinner_item, acHorArray);
         acHor.setAdapter(horAdapter);
-        acHor.setSelection(currentHor);
         acHor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -131,13 +126,10 @@ public class AcDialog extends DialogFragment {
         });
 
 
-
-
         acVert = (Spinner) view.findViewById(R.id.ac_vertical_spinner);
-        ArrayAdapter<String> verAdapter =  new ArrayAdapter<String>(getActivity(),
+        ArrayAdapter<String> verAdapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_spinner_item, acVertArray);
         acVert.setAdapter(verAdapter);
-        acVert.setSelection(currentVert);
         acVert.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -152,10 +144,9 @@ public class AcDialog extends DialogFragment {
 
 
         acSpeed = (Spinner) view.findViewById(R.id.ac_speed_spinner);
-        ArrayAdapter<String> speedAdapter =  new ArrayAdapter<String>(getActivity(),
+        ArrayAdapter<String> speedAdapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_spinner_item, acSpeedArray);
         acSpeed.setAdapter(speedAdapter);
-        acSpeed.setSelection(currentSpeed);
         acSpeed.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -170,17 +161,14 @@ public class AcDialog extends DialogFragment {
 
 
         acTempValue = (TextView) view.findViewById(R.id.ac_temp_value);
-        acTempValue.setText(current.toString() + "°C");
 
 
         acTemp = (SeekBar) view.findViewById(R.id.ac_temp_seekbar);
 
-        acTemp.setProgress((int) ((current - min) * 100 /(max -min)));
-
         acTemp.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                current = min + (progress*(max - min) / 100);
+                current = min + (progress * (max - min) / 100);
                 acTempValue.setText(current + "°C");
             }
 
@@ -196,7 +184,6 @@ public class AcDialog extends DialogFragment {
         });
 
         acSwitch = (Switch) view.findViewById(R.id.ac_switch);
-        acSwitch.setChecked(on);
 
         acSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -215,24 +202,22 @@ public class AcDialog extends DialogFragment {
         });
 
 
-
         accept = (TextView) view.findViewById(R.id.accept);
         accept.setText(getText(R.string.accept));
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getActivity(), getText(R.string.accept_message), Toast.LENGTH_SHORT).show();
-                if(on){
+                if (on) {
                     api_turnOn(getArguments().getString("deviceId"));
-                }
-                else {
+                } else {
                     api_turnOff(getArguments().getString("deviceId"));
                 }
-                api_setTemperature(getArguments().getString("deviceId") ,current);
-                api_changeSpeed(getArguments().getString("deviceId") , acSpeedArray[currentSpeed]);
-                api_changeVertical(getArguments().getString("deviceId"), acVertArray[currentVert]);
-                api_changeHorizontal(getArguments().getString("deviceId") , acHorArray[currentHor]);
-                api_setMode(getArguments().getString("deviceId") , acModeArray[currentMode]);
+                api_setTemperature(getArguments().getString("deviceId"), current);
+                api_changeSpeed(getArguments().getString("deviceId"), acSpeedArray[currentSpeed].replace("%", ""));
+                api_changeVertical(getArguments().getString("deviceId"), acVertArray[currentVert].replace("°", ""));
+                api_changeHorizontal(getArguments().getString("deviceId"), acHorArray[currentHor].replace("°", ""));
+                api_setMode(getArguments().getString("deviceId"), acModeArray[currentMode]);
 
 
                 getDialog().dismiss();
@@ -240,18 +225,129 @@ public class AcDialog extends DialogFragment {
         });
 
 
+        //fetch_refresh();
 
-
-
-
+        fetching();
 
         return view;
     }
 
 
+    private void fetching() {
+        Api.getInstance(getActivity()).getDeviceState(getArguments().getString("deviceId"), new Response.Listener<Device>() {
+            @Override
+            public void onResponse(Device response) {
+                current = response.getTemperature();
+                String aux = response.getMode();
+
+                switch (aux.toLowerCase()) {
+
+                    case "cool":
+                    case "frío":
+                        currentMode = 0;
+                        break;
+                    case "heat":
+                    case "calor":
+                        currentMode = 1;
+                        break;
+                    case "fan":
+                    case "ventilación":
+                        currentMode = 2;
+                        break;
+                    default:
+                        currentMode = 0;
+                }
+                switch (response.getFanSpeed().toLowerCase()) {
+                    case "auto":
+                        currentSpeed = 0;
+                        break;
+                    case "25":
+                        currentSpeed = 1;
+                        break;
+                    case "50":
+                        currentSpeed = 2;
+                        break;
+                    case "75":
+                        currentSpeed = 3;
+                        break;
+                    case "100":
+                        currentSpeed = 4;
+                        break;
+                }
 
 
-    private void api_changeSpeed(String devId, String speed){
+                switch (response.getHorizontalSwing().toLowerCase()) {
+                    case "auto":
+                        currentHor = 0;
+                        break;
+                    case "-90":
+                        currentHor = 1;
+                        break;
+                    case "-45":
+                        currentHor = 2;
+                        break;
+                    case "0":
+                        currentHor = 3;
+                        break;
+                    case "45":
+                        currentHor = 4;
+                        break;
+                    case "90":
+                        currentHor = 5;
+                        break;
+                }
+
+                switch (response.getVerticalSwing().toLowerCase()) {
+                    case "auto":
+                        currentVert = 0;
+                        break;
+                    case "22":
+                        currentVert = 1;
+                        break;
+                    case "45":
+                        currentVert = 2;
+                        break;
+                    case "67":
+                        currentVert = 3;
+                        break;
+                    case "90":
+                        currentVert = 4;
+                        break;
+                }
+
+
+                switch (response.getStatus()) {
+                    case "on":
+                        on = true;
+                        break;
+                    case "off":
+                        on = false;
+                        break;
+                }
+
+                System.out.println(response.getVerticalSwing().toLowerCase());
+                System.out.println(currentVert);
+
+
+                acTemp.setProgress((int) ((current - min) * 100 / (max - min)));
+                acTempValue.setText(current.toString() + "°C");
+                acMode.setSelection(currentMode);
+                acSpeed.setSelection(currentSpeed);
+                acSwitch.setChecked(on);
+                acVert.setSelection(currentVert);
+                acHor.setSelection(currentHor);
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+    }
+
+
+    private void api_changeSpeed(String devId, String speed) {
         String[] args = new String[1];
         args[0] = speed;
 
@@ -268,7 +364,7 @@ public class AcDialog extends DialogFragment {
         });
     }
 
-    private void api_changeVertical(String devId, String vert){
+    private void api_changeVertical(String devId, String vert) {
         String[] args = new String[1];
         args[0] = vert;
 
@@ -284,7 +380,8 @@ public class AcDialog extends DialogFragment {
             }
         });
     }
-    private void api_changeHorizontal(String devId, String hor){
+
+    private void api_changeHorizontal(String devId, String hor) {
         String[] args = new String[1];
         args[0] = hor;
         Api.getInstance(getActivity()).setActionString(devId, "setHorizontalSwing", args, new Response.Listener<Object>() {
@@ -300,7 +397,7 @@ public class AcDialog extends DialogFragment {
         });
     }
 
-    private void api_setMode(String devId, String mode){
+    private void api_setMode(String devId, String mode) {
         String[] args = new String[1];
         args[0] = mode;
 
@@ -317,8 +414,8 @@ public class AcDialog extends DialogFragment {
         });
     }
 
-    private void api_turnOff(String devId){
-        Api.getInstance(getActivity()).setAction(devId, "turnOff",null, new Response.Listener<Object>() {
+    private void api_turnOff(String devId) {
+        Api.getInstance(getActivity()).setAction(devId, "turnOff", null, new Response.Listener<Object>() {
             @Override
             public void onResponse(Object response) {
 
@@ -331,8 +428,8 @@ public class AcDialog extends DialogFragment {
 
     }
 
-    private void api_turnOn(String devId){
-        Api.getInstance(getActivity()).setAction(devId, "turnOn",null, new Response.Listener<Object>() {
+    private void api_turnOn(String devId) {
+        Api.getInstance(getActivity()).setAction(devId, "turnOn", null, new Response.Listener<Object>() {
             @Override
             public void onResponse(Object response) {
 
@@ -345,7 +442,7 @@ public class AcDialog extends DialogFragment {
 
     }
 
-    private void api_setTemperature(String devId, Double temp){
+    private void api_setTemperature(String devId, Double temp) {
         Double[] args = new Double[1];
         args[0] = temp;
         Api.getInstance(getActivity()).setActionDoub(devId, "setTemperature", args, new Response.Listener<Object>() {
@@ -361,3 +458,7 @@ public class AcDialog extends DialogFragment {
         });
     }
 }
+
+
+
+

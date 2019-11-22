@@ -1,9 +1,6 @@
 package ar.edu.itba.barsahome.api;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.util.Log;
-import android.util.Pair;
 
 import androidx.fragment.app.DialogFragment;
 
@@ -207,11 +204,11 @@ public class Api {
     }
 
 
-    public String setAction(String deviceId, String actionName,Params[] args, Response.Listener<Object> listener, Response.ErrorListener errorListener) {
+    public String setAction(String deviceId, String actionName,Device[] args, Response.Listener<Object> listener, Response.ErrorListener errorListener) {
         String url = URL + "devices/" + deviceId + "/" + actionName;
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
-        GsonRequest<Params[], Object> request =
+        GsonRequest<Device[], Object> request =
                 new GsonRequest<>(Request.Method.PUT, url, args, "result", new TypeToken<Object>() {
                 }, headers, listener, errorListener);
 
@@ -317,6 +314,18 @@ public class Api {
         return uuid;
     }
 
+
+    public String getDeviceState(String deviceId, Response.Listener<Device> listener, Response.ErrorListener errorListener){
+        String url = URL + "devices/" + deviceId + "/state";
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/json");
+        GsonRequest<Object, Device> request =
+                new GsonRequest<>(Request.Method.GET, url, null, "result", new TypeToken<Device>(){}, headers, listener, errorListener);
+        String uuid = UUID.randomUUID().toString();
+        request.setTag(uuid);
+        requestQueue.add(request);
+        return uuid;
+    }
 
 
 

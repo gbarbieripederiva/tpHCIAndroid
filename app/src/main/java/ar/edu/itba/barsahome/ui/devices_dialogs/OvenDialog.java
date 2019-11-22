@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
-import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -22,7 +21,6 @@ import com.android.volley.VolleyError;
 
 import ar.edu.itba.barsahome.R;
 import ar.edu.itba.barsahome.api.Api;
-import ar.edu.itba.barsahome.api.Params;
 
 public class OvenDialog extends DialogFragment {
     private SeekBar temp;
@@ -313,3 +311,17 @@ public class OvenDialog extends DialogFragment {
 
 
 }
+
+/*
+                switch (response.getConvection().toLowerCase()){
+                        case "apagado":
+                        case "":
+                        case "económico":
+                        case "":
+                        case "convencional":
+                        case "":
+
+                        }
+
+
+ */

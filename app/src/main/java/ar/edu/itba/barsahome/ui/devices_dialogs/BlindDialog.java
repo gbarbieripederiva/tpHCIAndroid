@@ -18,6 +18,7 @@ import com.android.volley.VolleyError;
 
 import ar.edu.itba.barsahome.R;
 import ar.edu.itba.barsahome.api.Api;
+import ar.edu.itba.barsahome.api.Device;
 
 public class BlindDialog extends DialogFragment {
     private TextView blind_title;
@@ -40,9 +41,7 @@ public class BlindDialog extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        openning = true;
         title = "BLINDS";
-        percentage = 50; //change to api value
 
 
         View view = inflater.inflate(R.layout.dialog_blinds, container, false);
@@ -53,16 +52,14 @@ public class BlindDialog extends DialogFragment {
 
         blind_percentage = (TextView) view.findViewById(R.id.blind_percentage);
 
-        blind_percentage.setText("%" + percentage.toString());
+
 
         blind_progbar = (ProgressBar) view.findViewById(R.id.blind_prog);
-        blind_progbar.setProgress(percentage);
 
 
 
 
         blind_switch = (Switch) view.findViewById(R.id.blind_switch);
-        blind_switch.setChecked(openning);
 
         blind_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -101,10 +98,40 @@ public class BlindDialog extends DialogFragment {
             }
         });
 
+        fetching();
 
 
         return view;
     }
+
+
+    private void fetching(){
+        Api.getInstance(getActivity()).getDeviceState(getArguments().getString("deviceId"), new Response.Listener<Device>() {
+            @Override
+            public void onResponse(Device response) {
+                switch (response.getStatus().toLowerCase()){
+                    case "opened":
+                        openning = true;
+                        break;
+                    case "closing":
+                        openning = false;
+                        break;
+
+                }
+                percentage = response.getLevel();
+
+                blind_switch.setChecked(openning);
+                blind_percentage.setText(percentage.toString() + "%" );
+                blind_progbar.setProgress(percentage);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+    }
+
 
     private void api_open(String devId){
         Api.getInstance(getActivity()).setAction(devId, "open", null, new Response.Listener<Object>() {

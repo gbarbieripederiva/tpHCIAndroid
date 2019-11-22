@@ -19,7 +19,6 @@ import com.android.volley.VolleyError;
 
 import ar.edu.itba.barsahome.R;
 import ar.edu.itba.barsahome.api.Api;
-import ar.edu.itba.barsahome.api.Params;
 
 public class FridgeDialog extends DialogFragment {
     private TextView fridge_title;
