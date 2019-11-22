@@ -1,5 +1,7 @@
 package ar.edu.itba.barsahome.ui.devices_dialogs;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,15 +16,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
+import ar.edu.itba.barsahome.BarsaApp;
 import ar.edu.itba.barsahome.R;
 import ar.edu.itba.barsahome.api.Api;
+import ar.edu.itba.barsahome.api.Device;
 
 public class OvenDialog extends DialogFragment {
+
+    private NotificationManagerCompat notManager;
+
     private SeekBar temp;
     private TextView grillModeText;
     private TextView ovenTitle;
@@ -47,14 +56,13 @@ public class OvenDialog extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
+
+        notManager = NotificationManagerCompat.from(getActivity());
+
         max = 230.0;
         min = 90.0;
-        current = 130.0;
-        on = true;
 
-        currentConMode = 0;
-        currentHeatSource = 1;
-        currentGrillMode = 2;
+
 
 
         title = "OVEN";
@@ -85,7 +93,6 @@ public class OvenDialog extends DialogFragment {
         convMode = (Spinner) view.findViewById(R.id.oven_convection_mode_spinner);
         ArrayAdapter<String> convAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, conModeArray);
         convMode.setAdapter(convAdapter);
-        convMode.setSelection(currentConMode);
 
         convMode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -103,7 +110,6 @@ public class OvenDialog extends DialogFragment {
         grillMode = (Spinner) view.findViewById(R.id.oven_grill_mode_spinner);
         ArrayAdapter<String> grillAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, grillModeArray);
         grillMode.setAdapter(grillAdapter);
-        grillMode.setSelection(currentGrillMode);
 
         grillMode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -121,7 +127,6 @@ public class OvenDialog extends DialogFragment {
         heatSource = (Spinner) view.findViewById(R.id.oven_source_spinner);
         final ArrayAdapter<String> sourceAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, heatSourceArray);
         heatSource.setAdapter(sourceAdapter);
-        heatSource.setSelection(currentHeatSource);
 
         heatSource.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -136,12 +141,7 @@ public class OvenDialog extends DialogFragment {
         });
 
         ovenSwitch = (Switch) view.findViewById(R.id.oven_switch);
-        if(on){
-            ovenSwitch.setChecked(true);
-        }
-        else{
-            ovenSwitch.setChecked(false);
-        }
+
 
         ovenSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -151,11 +151,11 @@ public class OvenDialog extends DialogFragment {
         });
 
         tempValue = (TextView) view.findViewById(R.id.temp_value);
-        tempValue.setText(current.toString() + "°C");
+
 
         temp = (SeekBar) view.findViewById(R.id.oven_temperature_seekbar);
 
-        temp.setProgress((int) ((current - min) * 100 /(max -min)));
+
 
         temp.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -192,11 +192,24 @@ public class OvenDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getActivity(), getText(R.string.accept_message), Toast.LENGTH_SHORT).show();
+                if(on){
+                    api_turnOn();
+                }
+                else {
+                    api_turnOff();
+                }
 
+                api_setConvection(conModeArray[currentConMode]);
+                api_setGrill(grillModeArray[currentGrillMode]);
+                api_setHeat(heatSourceArray[currentHeatSource]);
+                api_setTemperature(current);
+
+                sendDevNot(getView());
                 getDialog().dismiss();
             }
         });
 
+        fetching();
 
 
 
@@ -209,8 +222,91 @@ public class OvenDialog extends DialogFragment {
     }
 
 
-    private void api_turnOff(String devId){
-        Api.getInstance(getActivity()).setAction(devId, "turnOff",null, new Response.Listener<Object>() {
+
+
+
+    private void fetching(){
+        Api.getInstance(getActivity()).getDeviceState(getArguments().getString("deviceId"), new Response.Listener<Device>() {
+            @Override
+            public void onResponse(Device response) {
+                switch (response.getConvection().toLowerCase()){
+                    case "apagado":
+                    case "off":
+                        currentConMode = 0;
+                        break;
+                    case "económico":
+                    case "eco":
+                        currentConMode = 1;
+                        break;
+
+                    case "convencional":
+                    case "normal":
+                        currentConMode = 2;
+                        break;
+
+                }
+
+                switch (response.getGrill().toLowerCase()){
+                    case "apagado":
+                    case "off":
+                        currentGrillMode = 0;
+                        break;
+                    case "económico":
+                    case "eco":
+                        currentGrillMode = 1;
+                        break;
+                    case "completo":
+                    case "large":
+                        currentGrillMode = 2;
+                        break;
+                }
+
+                switch (response.getHeat().toLowerCase()){
+                    case "convencional":
+                    case "conventional":
+                        currentHeatSource = 0;
+                        break;
+                    case "abajo":
+                    case "bottom":
+                        currentHeatSource = 1;
+                        break;
+                    case "arriba":
+                    case "top":
+                        currentHeatSource = 2;
+                        break;
+                }
+
+                switch (response.getStatus()){
+                    case "on":
+                        on = true;
+                        break;
+                    case "off":
+                        on = false;
+                        break;
+                }
+
+                current = response.getTemperature();
+
+
+                ovenSwitch.setChecked(on);
+                grillMode.setSelection(currentGrillMode);
+                convMode.setSelection(currentConMode);
+                heatSource.setSelection(currentHeatSource);
+                tempValue.setText(current.toString() + "°C");
+                temp.setProgress((int) ((current - min) * 100 /(max -min)));
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+    }
+
+
+    private void api_turnOff(){
+        Api.getInstance(getActivity()).setAction(getArguments().getString("deviceId"), "turnOff",null, new Response.Listener<Object>() {
             @Override
             public void onResponse(Object response) {
 
@@ -224,8 +320,8 @@ public class OvenDialog extends DialogFragment {
 
     }
 
-    private void api_turnOn(String devId){
-        Api.getInstance(getActivity()).setAction(devId, "turnOn",null, new Response.Listener<Object>() {
+    private void api_turnOn(){
+        Api.getInstance(getActivity()).setAction(getArguments().getString("deviceId"), "turnOn",null, new Response.Listener<Object>() {
             @Override
             public void onResponse(Object response) {
 
@@ -240,12 +336,12 @@ public class OvenDialog extends DialogFragment {
     }
 
 
-    private void api_setTemperature(String devId, Double temp){
+    private void api_setTemperature(Double temp){
         Double[] args = new Double[1];
         args[0] = temp;
 
 
-        Api.getInstance(getActivity()).setActionDoub(devId, "setTemperature", args, new Response.Listener<Object>() {
+        Api.getInstance(getActivity()).setActionDoub(getArguments().getString("deviceId"), "setTemperature", args, new Response.Listener<Object>() {
             @Override
             public void onResponse(Object response) {
 
@@ -258,11 +354,11 @@ public class OvenDialog extends DialogFragment {
         });
     }
 
-    private void api_setHeat(String devId, String source){
+    private void api_setHeat(String source){
         String[] args = new String[1];
         args[0] = source;
 
-        Api.getInstance(getActivity()).setActionString(devId, "setHeat", args,new Response.Listener<Object>() {
+        Api.getInstance(getActivity()).setActionString(getArguments().getString("deviceId"), "setHeat", args,new Response.Listener<Object>() {
             @Override
             public void onResponse(Object response) {
 
@@ -275,11 +371,11 @@ public class OvenDialog extends DialogFragment {
         });
     }
 
-    private void api_setGrill(String devId, String grill){
+    private void api_setGrill(String grill){
         String[] args = new String[1];
         args[0] = grill;
 
-                Api.getInstance(getActivity()).setActionString(devId, "setGrill", args,new Response.Listener<Object>() {
+                Api.getInstance(getActivity()).setActionString(getArguments().getString("deviceId"), "setGrill", args,new Response.Listener<Object>() {
             @Override
             public void onResponse(Object response) {
 
@@ -292,11 +388,11 @@ public class OvenDialog extends DialogFragment {
         });
     }
 
-    private void api_setConvection(String devId, String conv){
+    private void api_setConvection(String conv){
         String[] args = new String[1];
         args[0] = conv;
 
-                Api.getInstance(getActivity()).setActionString(devId, "setConvection", args,new Response.Listener<Object>() {
+                Api.getInstance(getActivity()).setActionString(getArguments().getString("deviceId"), "setConvection", args,new Response.Listener<Object>() {
             @Override
             public void onResponse(Object response) {
 
@@ -308,20 +404,26 @@ public class OvenDialog extends DialogFragment {
             }
         });
     }
+
+    public void sendDevNot(View view){
+
+
+
+        Notification not = new NotificationCompat.Builder(getActivity(), BarsaApp.CHANNEL_1_ID).setSmallIcon(R.drawable.ic_oven)
+                .setContentTitle(getString(R.string.notification_title))
+                .setContentText(getString(R.string.notification_text))
+                .setPriority(NotificationManager.IMPORTANCE_LOW).build();
+
+        notManager.notify(1, not);
+
+
+
+
+    }
+
+
+
 
 
 }
 
-/*
-                switch (response.getConvection().toLowerCase()){
-                        case "apagado":
-                        case "":
-                        case "económico":
-                        case "":
-                        case "convencional":
-                        case "":
-
-                        }
-
-
- */

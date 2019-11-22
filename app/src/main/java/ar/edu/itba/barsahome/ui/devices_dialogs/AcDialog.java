@@ -1,5 +1,7 @@
 package ar.edu.itba.barsahome.ui.devices_dialogs;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.android.volley.Response;
@@ -21,11 +25,15 @@ import com.android.volley.VolleyError;
 
 import java.util.Arrays;
 
+import ar.edu.itba.barsahome.BarsaApp;
 import ar.edu.itba.barsahome.R;
 import ar.edu.itba.barsahome.api.Api;
 import ar.edu.itba.barsahome.api.Device;
 
 public class AcDialog extends DialogFragment {
+    private NotificationManagerCompat notManager;
+
+
     private TextView acTitle;
     private TextView acModeText;
     private TextView acSpeedText;
@@ -58,6 +66,7 @@ public class AcDialog extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        notManager = NotificationManagerCompat.from(getActivity());
 
         title = "AC";
         min = 18.0;
@@ -219,7 +228,7 @@ public class AcDialog extends DialogFragment {
                 api_changeHorizontal(getArguments().getString("deviceId"), acHorArray[currentHor].replace("°", ""));
                 api_setMode(getArguments().getString("deviceId"), acModeArray[currentMode]);
 
-
+                sendDevNot(getView());
                 getDialog().dismiss();
             }
         });
@@ -457,6 +466,23 @@ public class AcDialog extends DialogFragment {
             }
         });
     }
+
+    public void sendDevNot(View view){
+
+
+
+        Notification not = new NotificationCompat.Builder(getActivity(), BarsaApp.CHANNEL_1_ID).setSmallIcon(R.drawable.ic_ac)
+                .setContentTitle(getString(R.string.notification_title))
+                .setContentText(getString(R.string.notification_text))
+                .setPriority(NotificationManager.IMPORTANCE_LOW).build();
+
+        notManager.notify(1, not);
+
+
+
+
+    }
+
 }
 
 

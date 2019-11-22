@@ -1,5 +1,7 @@
 package ar.edu.itba.barsahome.ui.devices_dialogs;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,15 +14,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
+import ar.edu.itba.barsahome.BarsaApp;
 import ar.edu.itba.barsahome.R;
 import ar.edu.itba.barsahome.api.Api;
+import ar.edu.itba.barsahome.api.Device;
 
 public class FridgeDialog extends DialogFragment {
+    private NotificationManagerCompat notManager;
+
     private TextView fridge_title;
     private SeekBar fridge_temp;
     private SeekBar freeze_temp;
@@ -45,12 +53,11 @@ public class FridgeDialog extends DialogFragment {
         title = "FRIDGE";
         minFridge = 2.0;
         maxFridge = 8.0;
-        currentFridge = 6.0; //TODO
-        currentFreezer = -14.0;  //TODO
         minFreezer = -20.0;
         maxFreezer = -8.0;
         fridge_options_array = getResources().getStringArray(R.array.fridge_opt);
-        current_fridge_opt = 2;
+
+        notManager = NotificationManagerCompat.from(getActivity());
 
 
         View view = inflater.inflate(R.layout.dialog_fridge, container, false);
@@ -60,7 +67,6 @@ public class FridgeDialog extends DialogFragment {
         fridge_options = (Spinner) view.findViewById(R.id.fridge_spinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, fridge_options_array);
         fridge_options.setAdapter(adapter);
-        fridge_options.setSelection(current_fridge_opt);
         fridge_options.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -75,9 +81,8 @@ public class FridgeDialog extends DialogFragment {
 
 
         frezer_temp_value = (TextView) view.findViewById(R.id.value_freezer_temp);
-        frezer_temp_value.setText(currentFreezer + "°C");
+
         freeze_temp = (SeekBar) view.findViewById(R.id.freezer_seekbar);
-        freeze_temp.setProgress((int) ((currentFreezer - minFreezer) * 100 /(maxFreezer -minFreezer)));
         freeze_temp.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -98,9 +103,7 @@ public class FridgeDialog extends DialogFragment {
 
 
         fridge_temp_value =(TextView) view.findViewById(R.id.value_fridge_temp);
-        fridge_temp_value.setText(currentFridge.toString() + "°C");
         fridge_temp = (SeekBar) view.findViewById(R.id.fridge_seekbar);
-        fridge_temp.setProgress((int)((currentFridge - minFridge) * 100 / (maxFridge - minFridge)));
         fridge_temp.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -128,6 +131,8 @@ public class FridgeDialog extends DialogFragment {
         mode_text = (TextView) view.findViewById(R.id.fridge_mode);
         mode_text.setText(getText(R.string.mode_text));
 
+
+
         cancel = (TextView) view.findViewById(R.id.cancel);
         cancel.setText(getText(R.string.cancel));
         cancel.setOnClickListener(new View.OnClickListener() {
@@ -146,9 +151,18 @@ public class FridgeDialog extends DialogFragment {
             public void onClick(View v) {
                 Toast.makeText(getActivity(), getText(R.string.accept_message), Toast.LENGTH_SHORT).show();
 
+                api_setFreezerTemp(currentFreezer);
+                api_setFridgeTemp(currentFridge);
+                api_setMode(fridge_options_array[current_fridge_opt]);
+
+                sendDevNot(getView());
                 getDialog().dismiss();
             }
         });
+
+
+
+        fetching();
 
 
 
@@ -162,14 +176,58 @@ public class FridgeDialog extends DialogFragment {
 
 
 
+    private void fetching(){
+        Api.getInstance(getActivity()).getDeviceState(getArguments().getString("deviceId"), new Response.Listener<Device>() {
+            @Override
+            public void onResponse(Device response) {
+                switch (response.getMode().toLowerCase()){
+
+                    case "default":
+                    case "normal":
+                        current_fridge_opt = 0;
+                        break;
+                    case "party":
+                    case "fiesta":
+                        current_fridge_opt = 1;
+                        break;
+                    case "vacation":
+                    case "vacaciones":
+                        current_fridge_opt = 2;
+                        break;
+                }
+
+                currentFreezer = response.getFreezerTemperature();
+
+                currentFridge = response.getTemperature();
 
 
-    private void api_setFridgeTemp(String devId, Double temp){
+                fridge_options.setSelection(current_fridge_opt);
+                freeze_temp.setProgress((int) ((currentFreezer - minFreezer) * 100 /(maxFreezer -minFreezer)));
+                fridge_temp.setProgress((int)((currentFridge - minFridge) * 100 / (maxFridge - minFridge)));
+                frezer_temp_value.setText(currentFreezer + "°C");
+                fridge_temp_value.setText(currentFridge.toString() + "°C");
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+
+        });
+    }
+
+
+
+
+
+    private void api_setFridgeTemp(Double temp){
 
         Double[] args = new Double[1];
         args[0] = temp;
 
-        Api.getInstance(getActivity()).setActionDoub(devId, "setTemperature", args, new Response.Listener<Object>() {
+        Api.getInstance(getActivity()).setActionDoub(getArguments().getString("deviceId"), "setTemperature", args, new Response.Listener<Object>() {
             @Override
             public void onResponse(Object response) {
 
@@ -183,12 +241,12 @@ public class FridgeDialog extends DialogFragment {
 
     }
 
-    private void api_setFreezerTemp(String devId, Double temp){
+    private void api_setFreezerTemp(Double temp){
 
         Double[] args = new Double[1];
         args[0] = temp;
 
-        Api.getInstance(getActivity()).setActionDoub(devId, "setFreezerTemperature", args, new Response.Listener<Object>() {
+        Api.getInstance(getActivity()).setActionDoub(getArguments().getString("deviceId"), "setFreezerTemperature", args, new Response.Listener<Object>() {
             @Override
             public void onResponse(Object response) {
 
@@ -202,11 +260,11 @@ public class FridgeDialog extends DialogFragment {
 
     }
 
-    private void api_setMode(String devId, String mode){
+    private void api_setMode(String mode){
         String[] args = new String[1];
         args[0] = mode;
 
-        Api.getInstance(getActivity()).setActionString(devId, "setMode", args, new Response.Listener<Object>() {
+        Api.getInstance(getActivity()).setActionString(getArguments().getString("deviceId"), "setMode", args, new Response.Listener<Object>() {
             @Override
             public void onResponse(Object response) {
 
@@ -217,6 +275,22 @@ public class FridgeDialog extends DialogFragment {
 
             }
         });
+
+    }
+
+    public void sendDevNot(View view){
+
+
+
+        Notification not = new NotificationCompat.Builder(getActivity(), BarsaApp.CHANNEL_1_ID).setSmallIcon(R.drawable.ic_refrigerator)
+                .setContentTitle(getString(R.string.notification_title))
+                .setContentText(getString(R.string.notification_text))
+                .setPriority(NotificationManager.IMPORTANCE_LOW).build();
+
+        notManager.notify(1, not);
+
+
+
 
     }
 

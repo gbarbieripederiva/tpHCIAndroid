@@ -32,6 +32,11 @@
     <string name="light_intensity_text">Intensidad de la luz</string>
     <string name="show_color">Seleccionar color</string>
     <string name="error_opening_device">Error abriendo el dispositivo</string>
+    <string name="notification">Cambio en el estado de un dispositivo</string>
+    <string name="notification_title">Modificación de estado</string>
+    <string name="notification_text">Ha habido un cambio de estado de un dispositivo</string>
+
+
     <string-array name="fridge_opt">
         <item>Normal</item>
         <item>Fiesta</item>
@@ -75,7 +80,7 @@
     <string-array name="grill_mode">
         <item>Apagado</item>
         <item>Económico</item>
-        <item>Convencional</item>
+        <item>Completo</item>
     </string-array>
 
     <string-array name="conv_mode">
