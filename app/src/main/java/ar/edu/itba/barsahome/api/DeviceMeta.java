@@ -1,6 +1,6 @@
 package ar.edu.itba.barsahome.api;
 
-class DeviceMeta {
+public class DeviceMeta {
     private String codigo;
     private String fav;
 
