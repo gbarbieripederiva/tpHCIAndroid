@@ -27,7 +27,7 @@
     <fragment
         android:id="@+id/nav_room"
         android:name="ar.edu.itba.barsahome.ui.room.RoomFragment"
-        android:label="Cuarto"
+        android:label="@string/menu_cuarto"
         tools:layout="@layout/fragment_room">
         <argument
             android:name="roomName"
@@ -39,11 +39,10 @@
             android:id="@+id/action_nav_room_to_nav_add_device"
             app:destination="@id/nav_add_device" />
     </fragment>
-    <!--TODO: cambiar strings estaticas por dinamicas-->
     <fragment
         android:id="@+id/nav_add_device"
         android:name="ar.edu.itba.barsahome.ui.addDevice.AddDeviceFragment"
-        android:label="Agregar dispostivo"
+        android:label="@string/add_device"
         tools:layout="@layout/fragment_add_device">
         <argument
             android:name="roomName"
