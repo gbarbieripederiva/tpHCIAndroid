@@ -14,6 +14,9 @@
         <item
             android:id="@+id/nav_rutinas"
             android:title="@string/menu_rutinas"/>
+        <item
+            android:id="@+id/nav_alarma"
+            android:title="@string/menu_alarma"/>
     </group>
 
 
