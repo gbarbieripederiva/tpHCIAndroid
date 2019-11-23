@@ -16,9 +16,13 @@ import androidx.fragment.app.Fragment;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
+import java.util.ArrayList;
+
 import ar.edu.itba.barsahome.R;
 import ar.edu.itba.barsahome.api.Api;
 import ar.edu.itba.barsahome.api.Device;
+import ar.edu.itba.barsahome.api.DeviceMeta;
+import ar.edu.itba.barsahome.api.DeviceType;
 
 public class AlarmFragment extends Fragment {
 
@@ -31,7 +35,62 @@ public class AlarmFragment extends Fragment {
 
     private String pass;
     private Boolean locked;
-    public static final String ALARM_ID = "1a40db82abf93f5b";
+    public static String ALARM_ID;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Api.getInstance(getContext()).getDevices(new Response.Listener<ArrayList<Device>>() {
+            @Override
+            public void onResponse(ArrayList<Device> response) {
+                for(Device d:response){
+                    if(d.getType()!=null&&d.getType().getName().equals("alarm")){
+                        ALARM_ID=d.getId();
+                    }
+                }
+                if(ALARM_ID==null){
+                    Api.getInstance(getContext()).getDeviceTypes(new Response.Listener<ArrayList<DeviceType>>() {
+                        @Override
+                        public void onResponse(ArrayList<DeviceType> response) {
+                            String alarmTypeId = null;
+                            for(DeviceType types:response){
+                                if(types.getName().equals("alarm")){
+                                    alarmTypeId=types.getId();
+                                }
+                            }
+                            Api
+                                    .getInstance(getContext())
+                                    .addDevice(new Device(
+                                            "alarm",
+                                            new DeviceType(alarmTypeId),
+                                            new DeviceMeta("1234")
+                                    ), new Response.Listener<Device>() {
+                                        @Override
+                                        public void onResponse(Device response) {
+                                            ALARM_ID=response.getId();
+                                        }
+                                    }, new Response.ErrorListener() {
+                                        @Override
+                                        public void onErrorResponse(VolleyError error) {
+                                            //TODO:handle error with creating alarm
+                                        }
+                                    });
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            //TODO:handle error with getting types
+                        }
+                    });
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //TODO:handle error with getting alarm
+            }
+        });
+    }
 
     @Nullable
     @Override
