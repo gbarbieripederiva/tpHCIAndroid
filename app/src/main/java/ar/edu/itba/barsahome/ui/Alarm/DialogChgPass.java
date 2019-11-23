@@ -45,12 +45,13 @@ public class DialogChgPass extends DialogFragment {
         newpsw = (EditText) view.findViewById(R.id.new_psw);
         newpsw.setHint(R.string.new_psw);
 
-        rptnewpsw = (EditText) view.findViewById(R.id.old_psw);
-        rptnewpsw.setHint(R.string.old_psw);
+        rptnewpsw = (EditText) view.findViewById(R.id.rpt_new_psw);
+        rptnewpsw.setHint(R.string.rpt_new_psw);
 
 
 
         cancel = (Button) view.findViewById(R.id.cancel_btn);
+        cancel.setText(getText(R.string.cancel));
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,16 +60,20 @@ public class DialogChgPass extends DialogFragment {
         });
 
         accept = (Button) view.findViewById(R.id.acept_btn);
+        accept.setText(getText(R.string.accept));
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 if(!(newpsw.getText().toString().matches(rptnewpsw.getText().toString()))){
-                    Toast.makeText(getActivity(), getText(R.string.psw_nomatch), Toast.LENGTH_SHORT);
+                    Toast.makeText(getContext(), getText(R.string.psw_nomatch), Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    api_chg_pass(oldpsw.getText().toString(), newpsw.getText().toString());
+                    api_chg_pass(oldpsw.getText().toString(), newpsw.getText().toString(), v);
                 }
+
+
+                getDialog().dismiss();
 
             }
         });
@@ -82,24 +87,23 @@ public class DialogChgPass extends DialogFragment {
 
 
 
-    private void api_chg_pass(String oldpsw, String newpsw){
+    private void api_chg_pass(String oldpsw, String newpsw, final View v){
         String[] pswds = new String[2];
         pswds[0] = oldpsw;
         pswds[1] = newpsw;
 
-        Api.getInstance(getActivity()).setActionString(AlarmFragment.ALARM_ID, "changeSecurityCode", pswds, new Response.Listener<Object>() {
+        Api.getInstance(getActivity()).setActionStringBool(AlarmFragment.ALARM_ID, "changeSecurityCode", pswds, new Response.Listener<Boolean>() {
             @Override
-            public void onResponse(Object response) {
+            public void onResponse(Boolean response) {
                 Boolean success = (Boolean) response;
                 if(success){
-                    Toast.makeText(getActivity(), getText(R.string.succesful_process), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(v.getContext(), "Cambio de contraseña exitoso", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    Toast.makeText(getActivity(), getText(R.string.unsuccesful_process), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(v.getContext(), "No coincide contraseña", Toast.LENGTH_SHORT).show();
 
                 }
 
-                getDialog().dismiss();
             }
         }, new Response.ErrorListener() {
             @Override

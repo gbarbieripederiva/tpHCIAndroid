@@ -31,7 +31,7 @@ public class AlarmFragment extends Fragment {
 
     private String pass;
     private Boolean locked;
-    public static final String ALARM_ID = "fewqfeqewq32";
+    public static final String ALARM_ID = "1a40db82abf93f5b";
 
     @Nullable
     @Override
@@ -46,6 +46,7 @@ public class AlarmFragment extends Fragment {
         img_button = (ImageButton) view.findViewById(R.id.locked_unlocked_alarm);
 
         unlock_lock_btn = (Button) view.findViewById(R.id.unlock_lock_button);
+        unlock_lock_btn.setText(R.string.unlock_alarm_string);
         unlock_lock_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,6 +58,7 @@ public class AlarmFragment extends Fragment {
 
 
         change_pass_btn = (Button) view.findViewById(R.id.change_pass_button);
+        change_pass_btn.setText(R.string.chg_pass_title);
         change_pass_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,9 +77,14 @@ public class AlarmFragment extends Fragment {
 
 
 
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return view;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        stopReapeating(getView());
+    }
 
 
     private void fetching(){
@@ -85,7 +92,11 @@ public class AlarmFragment extends Fragment {
             @Override
             public void onResponse(Device response) {
                 switch (response.getStatus()){
-                    case "armed":
+                    case "armedAway":
+                        locked = true;
+                        break;
+
+                    case "armedStay":
                         locked = true;
                         break;
                     case "disarmed":
@@ -99,6 +110,8 @@ public class AlarmFragment extends Fragment {
                 else {
                     img_button.setBackgroundResource(R.drawable.ic_unlockdoor);
                 }
+
+
 
 
 
@@ -130,7 +143,7 @@ public class AlarmFragment extends Fragment {
         @Override
         public void run() {
             fetching();
-            fetchHandler.postDelayed(this, 5000);
+            fetchHandler.postDelayed(this, 2000);
         }
     };
 }

@@ -343,5 +343,21 @@ public class Api {
     }
 
 
+    public String setActionStringBool(String deviceId, String actionName,String[] args, Response.Listener<Boolean> listener, Response.ErrorListener errorListener){
+        String url = URL + "devices/" + deviceId + "/" + actionName;
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/json");
+        GsonRequest<String[], Boolean> request =
+                new GsonRequest<>(Request.Method.PUT, url, args, "result", new TypeToken<Boolean>() {
+                }, headers, listener, errorListener);
+
+        String uuid = UUID.randomUUID().toString();
+        request.setTag(uuid);
+        requestQueue.add(request);
+
+        return uuid;
+    }
+
+
 
 }

@@ -32,8 +32,8 @@
 
     <Button
         android:id="@+id/unlock_lock_button"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
+        android:layout_width="193dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/locked_unlocked_alarm"
         app:layout_constraintStart_toStartOf="@+id/locked_unlocked_alarm"
