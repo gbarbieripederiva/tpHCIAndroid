@@ -16,6 +16,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.work.Constraints;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
@@ -52,8 +53,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Constraints constraints = new Constraints.Builder().setRequiresBatteryNotLow(true).build();
 
-        PeriodicWorkRequest notifRequest = new PeriodicWorkRequest.Builder(DevWorkManager.class, 15, TimeUnit.MINUTES).build();
+
+        PeriodicWorkRequest notifRequest = new PeriodicWorkRequest.Builder(DevWorkManager.class, 15, TimeUnit.MINUTES).setConstraints(constraints).build();
 
         WorkManager.getInstance().enqueue(notifRequest);
 

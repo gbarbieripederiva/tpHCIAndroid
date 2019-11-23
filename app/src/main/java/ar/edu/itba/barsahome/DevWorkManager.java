@@ -38,7 +38,7 @@ public class DevWorkManager extends Worker {
             @Override
             public void onResponse(ArrayList<Device> response) {
                 apiCopy = new ArrayList<>(response);
-                if(!(MainActivity.localDevices.equals(response))){
+                if(!(MainActivity.localDevices.contains(response))){
                     sendDevNot();
                     MainActivity.localDevices = new ArrayList<>(response);
 
