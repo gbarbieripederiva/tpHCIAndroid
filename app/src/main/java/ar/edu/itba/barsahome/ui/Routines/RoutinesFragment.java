@@ -49,11 +49,14 @@ public class RoutinesFragment extends Fragment {
         /*TODO: ver que hacemos cuando esto este en una tablet y en celulares de distinito tamaño
          * esta es una solucion temporaria
          * */
+        
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
             recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 5));
         }else{
-            recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
+            recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         }
+
+
         //add the adapter
         final RoutinesAdapter adapter = new RoutinesAdapter(this.getContext(), this.routines);
         recyclerView.setAdapter(adapter);
