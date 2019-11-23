@@ -20,6 +20,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.ArrayList;
+
 import ar.edu.itba.barsahome.MainActivity;
 import ar.edu.itba.barsahome.R;
 import ar.edu.itba.barsahome.api.Api;
@@ -77,6 +79,19 @@ public class AddDeviceFragment extends Fragment {
                                                                 if(response){
                                                                     Snackbar.make(view,R.string.success_creating_device,Snackbar.LENGTH_SHORT);
                                                                     Navigation.findNavController(view).navigateUp();
+                                                                    Api.getInstance(getContext()).getDevices(new Response.Listener<ArrayList<Device>>() {
+                                                                        @Override
+                                                                        public void onResponse(ArrayList<Device> response) {
+
+                                                                            MainActivity.localDevices = new ArrayList<>(response);
+
+                                                                        }
+                                                                    }, new Response.ErrorListener() {
+                                                                        @Override
+                                                                        public void onErrorResponse(VolleyError error) {
+
+                                                                        }
+                                                                    });
                                                                 }else{
                                                                     Snackbar.make(view,R.string.error_creating_device,Snackbar.LENGTH_LONG);
                                                                     Navigation.findNavController(view).navigateUp();
