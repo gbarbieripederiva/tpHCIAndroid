@@ -20,6 +20,7 @@ import android.view.Menu;
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +44,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        this.menu=menu;
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
+    }
+
+    public Menu getMenu(){
+        return menu;
     }
 
     @Override

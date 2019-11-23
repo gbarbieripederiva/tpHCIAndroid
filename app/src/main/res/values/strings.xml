@@ -129,5 +129,9 @@
     <string name="no_hay_rutinas">No hay ninguna rutina creada</string>
     <string name="getting_favourite_devices">Obteniendo dispositivos favoritos</string>
     <string name="empty_dispositivos_favoritos">No hay dispositivos favoritos</string>
+    <string name="bloquear_desbloquear">Bloquear/Desbloquear</string>
+    <string name="cerrar_abrir">Cerrar/Abrir</string>
+    <string name="delete_room">Borrar cuarto</string>
+    <string name="error_deleting_room">Error al borrar cuarto</string>
 
 </resources>

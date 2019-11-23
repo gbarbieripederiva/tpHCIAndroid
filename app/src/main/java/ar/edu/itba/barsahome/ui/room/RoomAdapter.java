@@ -58,6 +58,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> {
                 public void onClick(View v) {
                     Bundle args=new Bundle();
                     args.putString("deviceId",devices[position].getId());
+                    args.putString("deviceName",devices[position].getName());
                     DialogFragment dialog=Api
                             .getInstance(v.getContext())
                             .getDeviceTypeDialog(devices[position].getType().getName(),v.getContext());
