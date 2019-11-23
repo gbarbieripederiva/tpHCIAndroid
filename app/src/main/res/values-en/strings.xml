@@ -53,4 +53,7 @@
     <string name="unlock_alarm_string">Activate/Desactivate Alarm</string>
     <string name="unsuccesful_process">Status change without success</string>
     <string name="wrong_name_format">The name must be between 3 and 60 characters. Only letters, numbers, spaces and underscores</string>
+    <string name="act_name">Name of the action</string>
+    <string name="dev_name">Device Name</string>
+    <string name="executing">Executing routine</string>
 </resources>
