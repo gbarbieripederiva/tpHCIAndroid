@@ -244,6 +244,9 @@ public class OvenDialog extends DialogFragment {
                         currentConMode = 2;
                         break;
 
+                    default:
+                        currentConMode = 0;
+
                 }
 
                 switch (response.getGrill().toLowerCase()){

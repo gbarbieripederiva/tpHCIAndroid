@@ -165,7 +165,8 @@ public class LampDialog extends DialogFragment {
         Api.getInstance(getActivity()).getDeviceState(getArguments().getString("deviceId"), new Response.Listener<Device>() {
             @Override
             public void onResponse(Device response) {
-                currentColor = Integer.parseInt(response.getColor(), 16);
+
+                currentColor = Integer.parseInt(response.getColor().replace("#", ""), 16);
                 System.out.println(currentColor);
                 intensity = response.getBrightness();
                 switch (response.getStatus().toLowerCase()){
