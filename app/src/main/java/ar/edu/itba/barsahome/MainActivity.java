@@ -16,10 +16,13 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
 import android.view.Menu;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import ar.edu.itba.barsahome.api.Api;
 import ar.edu.itba.barsahome.api.Device;
@@ -27,7 +30,11 @@ import ar.edu.itba.barsahome.api.Device;
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+
     public static ArrayList<Device> localDevices;
+
+    private Menu menu;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +51,11 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+
+        PeriodicWorkRequest notifRequest = new PeriodicWorkRequest.Builder(DevWorkManager.class, 15, TimeUnit.MINUTES).build();
+
+        WorkManager.getInstance().enqueue(notifRequest);
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -65,8 +77,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        this.menu=menu;
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
+    }
+
+    public Menu getMenu(){
+        return menu;
     }
 
     @Override
@@ -79,4 +96,7 @@ public class MainActivity extends AppCompatActivity {
     public void setActionBarTitle(String title){
         getSupportActionBar().setTitle(title);
     }
+
+
+
 }
