@@ -36,6 +36,24 @@
     <string name="notification_title">Modificación de estado</string>
     <string name="notification_text">Ha habido un cambio de estado de un dispositivo</string>
     <string name="getting_routines_from_api">Obteniendo rutinas de la API</string>
+    <string name="alarm_title">Alarma</string>
+    <string name="unlock_alarm_string">Activar/Desactivar Alarma</string>
+    <string name="password">Ingrese contraseña</string>
+    <string name="activate">Activar</string>
+    <string name="deactivate">Desactivar</string>
+    <string name="succesful_process">Cambio de estado exitoso</string>
+    <string name="unsuccesful_process">Cambio de estado sin éxito</string>
+    <string name="chg_pass_title">Cambio de contraseña</string>
+    <string name="old_psw">Contraseña actual</string>
+    <string name="new_psw">Contraseña nueva</string>
+    <string name="rpt_new_psw">Reingrese nueva contraseña</string>
+    <string name="psw_nomatch">Las contraseñas no coinciden</string>
+
+
+    <string-array name="alarm_mode">
+        <item>Casa</item>
+        <item>Regular</item>
+    </string-array>
 
 
     <string-array name="fridge_opt">

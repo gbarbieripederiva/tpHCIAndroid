@@ -64,7 +64,7 @@ public class DoorDialog extends DialogFragment {
             }
         });
 
-        door_lock = (ImageButton) view.findViewById(R.id.lock_unlock);
+        door_lock = (ImageButton) view.findViewById(R.id.locked_unlocked_alarm);
 
 
         open_close = (Button) view.findViewById(R.id.open_close);

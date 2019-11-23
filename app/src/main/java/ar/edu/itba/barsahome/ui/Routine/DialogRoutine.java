@@ -56,7 +56,7 @@ public class DialogRoutine extends DialogFragment {
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
             recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 15));
         }else{
-            recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 20));
+            recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
         }
 
 
@@ -66,7 +66,7 @@ public class DialogRoutine extends DialogFragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
 
-        adapter.changeDataSet(routine.getActions());
+        //adapter.changeDataSet(routine.getActions());
         recyclerView.setVisibility(View.VISIBLE);
 
 

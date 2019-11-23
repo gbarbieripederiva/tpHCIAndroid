@@ -103,6 +103,8 @@ public class Device {
     private String color;
     private Integer brightness;
 
+    //alarm
+
     ////////////////////////////////////////////////////////
 
 

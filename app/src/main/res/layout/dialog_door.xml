@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
+        app:layout_constraintGuide_begin="366dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline4"
@@ -33,7 +33,7 @@
         app:layout_constraintVertical_bias="0.586" />
 
     <ImageButton
-        android:id="@+id/lock_unlock"
+        android:id="@+id/locked_unlocked_alarm"
         android:layout_width="96dp"
         android:layout_height="73dp"
         android:adjustViewBounds="false"
@@ -54,10 +54,10 @@
         android:layout_height="wrap_content"
         android:text="Bloquear/Desbloquear"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/lock_unlock"
+        app:layout_constraintEnd_toEndOf="@+id/locked_unlocked_alarm"
         app:layout_constraintHorizontal_bias="0.49"
-        app:layout_constraintStart_toStartOf="@+id/lock_unlock"
-        app:layout_constraintTop_toBottomOf="@+id/lock_unlock"
+        app:layout_constraintStart_toStartOf="@+id/locked_unlocked_alarm"
+        app:layout_constraintTop_toBottomOf="@+id/locked_unlocked_alarm"
         app:layout_constraintVertical_bias="0.11" />
 
     <Switch
