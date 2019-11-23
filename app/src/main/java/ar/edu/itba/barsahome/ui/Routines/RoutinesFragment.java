@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Response;
@@ -38,6 +39,7 @@ public class RoutinesFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater,container,savedInstanceState);
         //inflate view
         View view = inflater.inflate(R.layout.fragment_routines, container, false);
         //obtiene los elementos
@@ -50,13 +52,7 @@ public class RoutinesFragment extends Fragment {
          * esta es una solucion temporaria
          * */
 
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
-            recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 5));
-        }else{
-            recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
-        }
-
-
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         //add the adapter
         final RoutinesAdapter adapter = new RoutinesAdapter(this.getContext(), this.routines);
         recyclerView.setAdapter(adapter);
@@ -71,16 +67,22 @@ public class RoutinesFragment extends Fragment {
                     public void onResponse(ArrayList<Routine> response) {
                         routines =response.toArray(new Routine[response.size()]);
                         adapter.changeDataSet(routines);
-                        recyclerView.setVisibility(View.VISIBLE);
-                        textView.setVisibility(View.GONE);
+                        if(routines.length>0){
+                            recyclerView.setVisibility(View.VISIBLE);
+                            textView.setVisibility(View.GONE);
+                        }else {
+                            recyclerView.setVisibility(View.GONE);
+                            textView.setText(R.string.no_hay_rutinas);
+                            textView.setVisibility(View.VISIBLE);
+                        }
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         //TODO: usar un string en vez de este literal
-                        /*textView.setText("Hubo un error");
+                        textView.setText("Hubo un error");
                         textView.setVisibility(View.VISIBLE);
-                        recyclerView.setVisibility(View.GONE);*/
+                        recyclerView.setVisibility(View.GONE);
                         Log.e("RoutinesFragment Api call",error.toString());
                     }
                 }
