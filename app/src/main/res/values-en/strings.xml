@@ -12,7 +12,7 @@
     <string name="alarm_title">Alarm</string>
     <string name="cancel">Cancell</string>
     <string name="chg_pass_title">Password change</string>
-    <string name="deactivate">Desactivate</string>
+    <string name="deactivate">Deactivate</string>
     <string name="empty_dispositivos_favoritos">There are no favorite devices</string>
     <string name="error_creating_device">Device creation error</string>
     <string name="error_opening_device">Error opening the device</string>

@@ -60,7 +60,7 @@
     </string-array>
 
 
-    <string-array name="fridge_opt">
+    <string-array name="fridge_opt" >
         <item>Normal</item>
         <item>Fiesta</item>
         <item>Vacaciones</item>
