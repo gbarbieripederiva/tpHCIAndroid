@@ -56,4 +56,8 @@
     <string name="act_name">Nombre de la acción</string>
     <string name="dev_name">Nombre del dispositivo</string>
     <string name="executing">Ejecutando rutina</string>
+    <string name="cerrar_abrir">Cerrar/Abrir</string>
+    <string name="delete_room">Borrar Cuarrto</string>
+    <string name="error_deleting_room">Error al borrar cuarto</string>
+    <string name="bloquear_desbloquear">Bloquear/Desbloquear</string>
 </resources>

@@ -56,4 +56,8 @@
     <string name="act_name">Name of the action</string>
     <string name="dev_name">Device Name</string>
     <string name="executing">Executing routine</string>
+    <string name="cerrar_abrir">Close/Open</string>
+    <string name="delete_room">Delete room</string>
+    <string name="error_deleting_room">Error deleting room</string>
+    <string name="bloquear_desbloquear">Block/Unblock</string>
 </resources>
