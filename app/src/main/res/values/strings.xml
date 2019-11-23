@@ -122,5 +122,6 @@
     <string name="menu_rutinas">Rutinas</string>
     <string name="menu_cuarto">Cuarto</string>
     <string name="menu_alarma">Alarma</string>
+    <string name="no_hay_rutinas">No hay ninguna rutina creada</string>
 
 </resources>

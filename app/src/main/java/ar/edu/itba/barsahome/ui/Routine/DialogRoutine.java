@@ -43,6 +43,7 @@ public class DialogRoutine extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater,container,savedInstanceState);
         View view = inflater.inflate(R.layout.dialog_routine, container, false);
 
         title = (TextView) view.findViewById(R.id.routine_title);
@@ -53,12 +54,7 @@ public class DialogRoutine extends DialogFragment {
 
         recyclerView = (RecyclerView) view.findViewById(R.id.routine_recycler_view);
 
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
-            recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 15));
-        }else{
-            recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
-        }
-
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         final RoutineRecyclerViewAdapter adapter = new RoutineRecyclerViewAdapter(routine.getActions(), context);
         recyclerView.setAdapter(adapter);
