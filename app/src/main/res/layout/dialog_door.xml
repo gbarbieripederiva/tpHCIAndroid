@@ -65,11 +65,11 @@
         android:layout_width="152dp"
         android:layout_height="71dp"
         android:text="CERRAR/ABRIR"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/open_close"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintHorizontal_bias="0.296"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/locked_unlocked_alarm" />
 
     <TextView
         android:id="@+id/cancel"
@@ -89,7 +89,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline12"
-        app:layout_constraintTop_toBottomOf="@+id/open_close" />
+        app:layout_constraintTop_toBottomOf="@+id/open_close"
+        app:layout_constraintVertical_bias="0.619" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline11"

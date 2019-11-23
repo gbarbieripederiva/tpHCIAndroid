@@ -3,6 +3,7 @@ package ar.edu.itba.barsahome.ui.Routine;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,8 @@ import java.util.ArrayList;
 import ar.edu.itba.barsahome.R;
 import ar.edu.itba.barsahome.api.Api;
 import ar.edu.itba.barsahome.api.Routine;
+
+import static android.content.ContentValues.TAG;
 
 public class DialogRoutine extends DialogFragment {
     private Routine routine;
@@ -85,7 +88,9 @@ public class DialogRoutine extends DialogFragment {
             @Override
             public void onClick(View v) {
 
-                api_execute_routine(v);
+                api_execute_routine();
+
+                Toast.makeText(getContext(), getText(R.string.executing), Toast.LENGTH_SHORT).show();
 
                 getDialog().dismiss();
             }
@@ -100,22 +105,16 @@ public class DialogRoutine extends DialogFragment {
     }
 
 
-    private void api_execute_routine(final View v){
-        Api.getInstance(getContext()).execRoutine(routine.getId(), new Response.Listener<Boolean>() {
+    private void api_execute_routine(){
+        Api.getInstance(getContext()).execRoutine(routine.getId(), new Response.Listener<Object[]>() {
             @Override
-            public void onResponse(Boolean response) {
-                if (response) {
-                    Toast.makeText(v.getContext(), "Rutina ejecutada con éxito", Toast.LENGTH_SHORT);
-
-                } else {
-                    Toast.makeText(v.getContext(), "Rutina noo pudo ser ejecutada", Toast.LENGTH_SHORT);
-
-                }
+            public void onResponse(Object[] response) {
+                System.out.println("hola");
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                Log.e(TAG, "onErrorResponse: ",error );
             }
         });
     }
