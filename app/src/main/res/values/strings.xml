@@ -48,6 +48,7 @@
     <string name="new_psw">Contraseña nueva</string>
     <string name="rpt_new_psw">Reingrese nueva contraseña</string>
     <string name="psw_nomatch">Las contraseñas no coinciden</string>
+    <string name="execute">Ejecutar rutina</string>
 
 
     <string-array name="alarm_mode">
