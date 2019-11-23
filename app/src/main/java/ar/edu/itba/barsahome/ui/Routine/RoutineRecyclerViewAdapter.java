@@ -36,8 +36,9 @@ public class RoutineRecyclerViewAdapter extends RecyclerView.Adapter<RoutineRecy
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.action.setText(actions[position].getActionName());
-        if(actions[position].getParams() == "[]"){
+        holder.action.setText("Nombre de la acción : " + actions[position].getActionName());
+        holder.devName.setText("Nombre del dispositivo : " + actions[position].getDevice().getName());
+        if(actions[position].getParams() != "[]"){
         holder.params.setText("params : " + actions[position].getParams().toString());}
         else{
             holder.params.setText("params : null");
@@ -52,8 +53,10 @@ public class RoutineRecyclerViewAdapter extends RecyclerView.Adapter<RoutineRecy
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView action;
         TextView params;
+        TextView devName;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            devName = (TextView) itemView.findViewById(R.id.device_name);
             action = (TextView) itemView.findViewById(R.id.action_name);
             params = (TextView) itemView.findViewById(R.id.params);
 
