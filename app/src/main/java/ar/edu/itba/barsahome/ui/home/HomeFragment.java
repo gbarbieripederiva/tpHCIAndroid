@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
@@ -40,12 +41,19 @@ public class HomeFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         View view=inflater.inflate(R.layout.fragment_room,container,false);
 
-        RecyclerView recyclerView=view.findViewById(R.id.fragment_room_recyclerview);
+        final RecyclerView recyclerView=view.findViewById(R.id.fragment_room_recyclerview);
+        final TextView textView = view.findViewById(R.id.fragment_room_textview);
+        textView.setText(R.string.getting_favourite_devices);
+
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
         final HomeAdapter adapter = new HomeAdapter(this.devices);
         recyclerView.setAdapter(adapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
+        if(devices.length<1){
+            textView.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        }
 
         Api.getInstance(getContext()).getDevices(new Response.Listener<ArrayList<Device>>() {
             @Override
@@ -60,6 +68,14 @@ public class HomeFragment extends Fragment {
                 }
                 devices=favs.toArray(new Device[favs.size()]);
                 adapter.changeDataSet(devices);
+                if(devices.length<1){
+                    textView.setText(R.string.empty_dispositivos_favoritos);
+                    textView.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
+                }else{
+                    textView.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                }
             }
         }, new Response.ErrorListener() {
             @Override
