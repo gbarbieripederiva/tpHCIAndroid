@@ -7,11 +7,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import ar.edu.itba.barsahome.R;
 import ar.edu.itba.barsahome.api.Room;
 import ar.edu.itba.barsahome.api.Routine;
+import ar.edu.itba.barsahome.ui.Routine.DialogRoutine;
 
 public class RoutinesAdapter extends RecyclerView.Adapter<RoutinesAdapter.ViewHolder> {
 
@@ -36,10 +40,18 @@ public class RoutinesAdapter extends RecyclerView.Adapter<RoutinesAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Routine routine = routines[position];
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+        final Routine routine = routines[position];
 
         holder.routButton.setText(routine.getName());
+        holder.routButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager manager = ((AppCompatActivity)context).getSupportFragmentManager();
+                DialogRoutine dialogRoutine = new DialogRoutine(routine, context);//not the way
+                dialogRoutine.show(manager, "routine");
+            }
+        });
     }
 
     @Override
@@ -56,6 +68,8 @@ public class RoutinesAdapter extends RecyclerView.Adapter<RoutinesAdapter.ViewHo
             super(itemView);
 
             routButton = (Button) itemView.findViewById(R.id.routine_button);
+
+
         }
     }
 }

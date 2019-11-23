@@ -120,6 +120,7 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.ViewHolder> 
             super(itemView);
             this.button=(ImageButton)itemView.findViewById(R.id.recyclerview_item_room_button);
             this.textview=(TextView)itemView.findViewById(R.id.recyclerview_item_room_text);
+
         }
     }
 }

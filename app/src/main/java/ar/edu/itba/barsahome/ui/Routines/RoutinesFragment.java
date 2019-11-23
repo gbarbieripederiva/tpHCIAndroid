@@ -52,7 +52,7 @@ public class RoutinesFragment extends Fragment {
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
             recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 5));
         }else{
-            recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+            recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
         }
         //add the adapter
         final RoutinesAdapter adapter = new RoutinesAdapter(this.getContext(), this.routines);
@@ -84,6 +84,7 @@ public class RoutinesFragment extends Fragment {
         );
         return view;
     }
+
 
 
 }

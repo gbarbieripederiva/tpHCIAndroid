@@ -1,5 +1,7 @@
 package ar.edu.itba.barsahome.api;
 
+import androidx.annotation.NonNull;
+
 public class Routine {
     private String id;
     private String name;
@@ -56,6 +58,12 @@ public class Routine {
 
         public void setParams(Object params) {
             this.params = params;
+        }
+
+        @NonNull
+        @Override
+        public String toString() {
+            return this.actionName + this.params == null ? "null" : this.params.toString();
         }
     }
 }

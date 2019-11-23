@@ -69,18 +69,6 @@ public class AcDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
 
-         Api.getInstance(getActivity()).getRoutines(new Response.Listener<ArrayList<Routine>>() {
-             @Override
-             public void onResponse(ArrayList<Routine> response) {
-                 System.out.println(response.get(0).getActions().length + "jaja");
-             }
-         }, new Response.ErrorListener() {
-             @Override
-             public void onErrorResponse(VolleyError error) {
-                 System.out.println("error");
-             }
-         });
-
         notManager = NotificationManagerCompat.from(getActivity());
 
         title = "AC";
