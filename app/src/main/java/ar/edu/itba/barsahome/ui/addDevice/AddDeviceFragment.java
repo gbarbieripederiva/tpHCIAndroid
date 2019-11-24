@@ -29,6 +29,9 @@ import ar.edu.itba.barsahome.api.Device;
 import ar.edu.itba.barsahome.api.DeviceType;
 
 public class AddDeviceFragment extends Fragment {
+
+    private RecyclerView recyclerView;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -39,9 +42,14 @@ public class AddDeviceFragment extends Fragment {
 
         final EditText editText=view.findViewById(R.id.fragment_add_device_edittext);
 
-        final RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.fragment_add_device_recyclerview);
+        recyclerView = (RecyclerView) view.findViewById(R.id.fragment_add_device_recyclerview);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        final AddDeviceAdapter adapter = new AddDeviceAdapter(Api.getInstance(getContext()).getTypes());
+
+        int position=-1;
+        if(savedInstanceState!=null){
+            position=savedInstanceState.getInt("position",-1);
+        }
+        final AddDeviceAdapter adapter = new AddDeviceAdapter(Api.getInstance(getContext()).getTypes(),position);
         recyclerView.setAdapter(adapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
@@ -126,5 +134,12 @@ public class AddDeviceFragment extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if(recyclerView!=null&&recyclerView.getAdapter()!=null)
+            outState.putInt("position",((AddDeviceAdapter)recyclerView.getAdapter()).getPositionSelected());
     }
 }

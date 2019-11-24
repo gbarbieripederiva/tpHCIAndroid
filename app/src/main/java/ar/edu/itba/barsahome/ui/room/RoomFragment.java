@@ -40,8 +40,6 @@ public class RoomFragment extends Fragment {
         this.roomId=RoomFragmentArgs.fromBundle(getArguments()).getRoomId();
         this.roomName=RoomFragmentArgs.fromBundle(getArguments()).getRoomName();
         this.devices=new Device[0];
-        ((MainActivity)getActivity()).setActionBarTitle(this.roomName);
-
     }
 
     @Nullable
@@ -53,6 +51,11 @@ public class RoomFragment extends Fragment {
         this.roomName=RoomFragmentArgs.fromBundle(getArguments()).getRoomName();
 
         setHasOptionsMenu(true);
+
+        MainActivity activity=((MainActivity)getActivity());
+        if(activity!=null)
+            activity.setActionBarTitle(this.roomName);
+
 
         RecyclerView recyclerView=view.findViewById(R.id.fragment_room_recyclerview);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));

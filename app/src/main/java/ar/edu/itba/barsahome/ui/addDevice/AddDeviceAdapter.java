@@ -20,9 +20,9 @@ public class AddDeviceAdapter extends RecyclerView.Adapter<AddDeviceAdapter.View
     private int positionSelected;
 
 
-    public AddDeviceAdapter(DeviceType[] deviceTypes) {
+    public AddDeviceAdapter(DeviceType[] deviceTypes,int positionSelected) {
         this.deviceTypes = deviceTypes;
-        this.positionSelected=-1;
+        this.positionSelected=positionSelected;
     }
 
     @NonNull
@@ -56,6 +56,10 @@ public class AddDeviceAdapter extends RecyclerView.Adapter<AddDeviceAdapter.View
 
     public DeviceType getDeviceType(){
         return positionSelected>=0?deviceTypes[positionSelected]:null;
+    }
+
+    public int getPositionSelected(){
+        return positionSelected;
     }
 
     @Override

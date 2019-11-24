@@ -1,8 +1,10 @@
 package ar.edu.itba.barsahome;
 
 import android.os.Bundle;
+import android.util.Log;
 
 
+import androidx.appcompat.app.ActionBar;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -20,8 +22,6 @@ import androidx.work.Constraints;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
-import android.view.Menu;
-
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -33,8 +33,6 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
 
     public static ArrayList<Device> localDevices = new ArrayList<>();
-
-    private Menu menu;
 
 
     @Override
@@ -84,18 +82,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        this.menu=menu;
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    public Menu getMenu(){
-        return menu;
-    }
-
-    @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
@@ -103,7 +89,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setActionBarTitle(String title){
-        getSupportActionBar().setTitle(title);
+        ActionBar actionBar=getSupportActionBar();
+        if(actionBar!=null)
+            actionBar.setTitle(title);
+        else
+            Log.v("hola",title);
     }
 
 
