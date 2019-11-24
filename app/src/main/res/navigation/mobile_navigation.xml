@@ -11,9 +11,49 @@
         android:label="@string/menu_dispostivos_favoritos"
         tools:layout="@layout/fragment_dispositivos_favoritos" />
     <fragment
+        android:id="@+id/nav_rutinas"
+        android:name="ar.edu.itba.barsahome.ui.Routines.RoutinesFragment"
+        android:label="@string/menu_rutinas"
+        tools:layout="@layout/fragment_routines" />
+    <fragment
+        android:id="@+id/nav_alarma"
+        android:name="ar.edu.itba.barsahome.ui.Alarm.AlarmFragment"
+        android:label="@string/menu_alarma"
+        tools:layout="@layout/fragment_alarm" />
+    <fragment
         android:id="@+id/nav_rooms"
         android:name="ar.edu.itba.barsahome.ui.rooms.RoomsFragment"
         android:label="@string/menu_rooms"
-        tools:layout="@layout/fragment_rooms" />
-
+        tools:layout="@layout/fragment_rooms" >
+        <action
+            android:id="@+id/action_nav_rooms_to_nav_room"
+            app:destination="@id/nav_room" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_room"
+        android:name="ar.edu.itba.barsahome.ui.room.RoomFragment"
+        android:label="@string/menu_cuarto"
+        tools:layout="@layout/fragment_room">
+        <argument
+            android:name="roomName"
+            app:argType="string"/>
+        <argument
+            android:name="roomId"
+            app:argType="string"/>
+        <action
+            android:id="@+id/action_nav_room_to_nav_add_device"
+            app:destination="@id/nav_add_device" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_add_device"
+        android:name="ar.edu.itba.barsahome.ui.addDevice.AddDeviceFragment"
+        android:label="@string/add_device"
+        tools:layout="@layout/fragment_add_device">
+        <argument
+            android:name="roomName"
+            app:argType="string"/>
+        <argument
+            android:name="roomId"
+            app:argType="string"/>
+    </fragment>
 </navigation>

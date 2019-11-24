@@ -2,6 +2,7 @@ package ar.edu.itba.barsahome.ui.rooms;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,7 @@ import ar.edu.itba.barsahome.R;
 import ar.edu.itba.barsahome.api.Api;
 import ar.edu.itba.barsahome.api.Room;
 
-public class RoomsFragment extends Fragment {
+public class    RoomsFragment extends Fragment {
     private Room[] rooms;
 
     @Override
@@ -56,28 +57,17 @@ public class RoomsFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         //si no hay rooms muestra obteniendo sino previzualiza los que ya hay
-        if(this.rooms.length>0){
-            recyclerView.setVisibility(View.VISIBLE);
-            textView.setVisibility(View.GONE);
-        }else{
-            recyclerView.setVisibility(View.GONE);
-            textView.setVisibility(View.VISIBLE);
-        }
+        recyclerView.setVisibility(View.GONE);
+        textView.setVisibility(View.VISIBLE);
         //busca los rooms
         Api.getInstance(getActivity()).getRooms(
                 new Response.Listener<ArrayList<Room>>() {
                     @Override
                     public void onResponse(ArrayList<Room> response) {
                         rooms=response.toArray(new Room[response.size()]);
-                        if(rooms.length>0){
-                            adapter.changeDataSet(rooms);
-                            recyclerView.setVisibility(View.VISIBLE);
-                            textView.setVisibility(View.GONE);
-                        }else{
-                            textView.setText(getString(R.string.no_rooms));
-                            textView.setVisibility(View.VISIBLE);
-                            recyclerView.setVisibility(View.GONE);
-                        }
+                        adapter.changeDataSet(rooms);
+                        recyclerView.setVisibility(View.VISIBLE);
+                        textView.setVisibility(View.GONE);
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -86,6 +76,7 @@ public class RoomsFragment extends Fragment {
                         /*textView.setText("Hubo un error");
                         textView.setVisibility(View.VISIBLE);
                         recyclerView.setVisibility(View.GONE);*/
+                        Log.e("RoomsFragment Api call",error.toString());
                     }
                 }
         );

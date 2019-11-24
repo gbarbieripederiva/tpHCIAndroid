@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/oven_title"
+        android:layout_width="280dp"
+        android:layout_height="88dp"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+        app:layout_constraintBottom_toTopOf="@+id/guideline15"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <Spinner
+        android:id="@+id/oven_source_spinner"
+        android:layout_width="180dp"
+        android:layout_height="31dp"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/guideline8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline7"
+        app:layout_constraintTop_toTopOf="@+id/guideline15" />
+
+    <TextView
+        android:id="@+id/oven_source_text"
+        android:layout_width="148dp"
+        android:layout_height="31dp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@+id/oven_source_spinner"
+        app:layout_constraintEnd_toStartOf="@+id/guideline7"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/oven_source_spinner" />
+
+    <Switch
+        android:id="@+id/oven_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/apg_enc"
+        app:layout_constraintBottom_toTopOf="@+id/oven_source_spinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline7"
+        app:layout_constraintTop_toTopOf="@+id/guideline15" />
+
+    <TextView
+        android:id="@+id/oven_grill_mode_text"
+        android:layout_width="148dp"
+        android:layout_height="31dp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@+id/oven_grill_mode_spinner"
+        app:layout_constraintEnd_toEndOf="@+id/oven_source_text"
+        app:layout_constraintStart_toStartOf="@+id/oven_source_text"
+        app:layout_constraintTop_toTopOf="@+id/oven_grill_mode_spinner" />
+
+    <TextView
+        android:id="@+id/oven_convection_mode_text"
+        android:layout_width="148dp"
+        android:layout_height="31dp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@+id/oven_convection_mode_spinner"
+        app:layout_constraintEnd_toEndOf="@+id/oven_grill_mode_text"
+        app:layout_constraintStart_toStartOf="@+id/oven_grill_mode_text"
+        app:layout_constraintTop_toTopOf="@+id/oven_convection_mode_spinner" />
+
+    <TextView
+        android:id="@+id/oven_temperature_text"
+        android:layout_width="148dp"
+        android:layout_height="31dp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@+id/oven_temperature_seekbar"
+        app:layout_constraintEnd_toEndOf="@+id/oven_convection_mode_text"
+        app:layout_constraintStart_toStartOf="@+id/oven_convection_mode_text"
+        app:layout_constraintTop_toTopOf="@+id/oven_temperature_seekbar" />
+
+    <Spinner
+        android:id="@+id/oven_grill_mode_spinner"
+        android:layout_width="180dp"
+        android:layout_height="31dp"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/oven_convection_mode_spinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline7"
+        app:layout_constraintTop_toBottomOf="@+id/oven_source_spinner" />
+
+    <Spinner
+        android:id="@+id/oven_convection_mode_spinner"
+        android:layout_width="180dp"
+        android:layout_height="31dp"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/oven_grill_mode_spinner"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/oven_grill_mode_spinner"
+        app:layout_constraintTop_toTopOf="@+id/guideline8"
+        app:layout_constraintVertical_bias="0.329" />
+
+    <SeekBar
+        android:id="@+id/oven_temperature_seekbar"
+        android:layout_width="180dp"
+        android:layout_height="31dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/oven_convection_mode_spinner"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/oven_convection_mode_spinner"
+        app:layout_constraintTop_toBottomOf="@+id/oven_convection_mode_spinner"
+        app:layout_constraintVertical_bias="0.316" />
+
+    <TextView
+        android:id="@+id/temp_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@+id/oven_temperature_seekbar"
+        app:layout_constraintEnd_toEndOf="@+id/oven_temperature_seekbar"
+        app:layout_constraintStart_toStartOf="@+id/oven_temperature_seekbar"
+        app:layout_constraintTop_toBottomOf="@+id/oven_convection_mode_spinner"
+        app:layout_constraintVertical_bias="0.775" />
+
+    <TextView
+        android:id="@+id/cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textColor="#33BBFF"
+        app:layout_constraintBottom_toBottomOf="@+id/accept"
+        app:layout_constraintEnd_toStartOf="@+id/guideline13"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/accept" />
+
+    <TextView
+        android:id="@+id/accept"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:textColor="#33BBFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline14"
+        app:layout_constraintTop_toBottomOf="@+id/oven_temperature_seekbar"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.75" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.2" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

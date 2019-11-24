@@ -1,28 +1,82 @@
 package ar.edu.itba.barsahome.api;
 import android.content.Context;
+import android.util.Log;
+
+import androidx.fragment.app.DialogFragment;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import ar.edu.itba.barsahome.BuildConfig;
+import ar.edu.itba.barsahome.R;
+import ar.edu.itba.barsahome.ui.devices_dialogs.AcDialog;
+import ar.edu.itba.barsahome.ui.devices_dialogs.BlindDialog;
+import ar.edu.itba.barsahome.ui.devices_dialogs.DoorDialog;
+import ar.edu.itba.barsahome.ui.devices_dialogs.ErrorOpeningDeviceDialog;
+import ar.edu.itba.barsahome.ui.devices_dialogs.FridgeDialog;
+import ar.edu.itba.barsahome.ui.devices_dialogs.LampDialog;
+import ar.edu.itba.barsahome.ui.devices_dialogs.OvenDialog;
 
 
 public class Api {
     private static Api instance;
     private static RequestQueue requestQueue;
+    private static Map<String, DeviceType> typeId=new HashMap<>();
     // Use IP 10.0.2.2 instead of 127.0.0.1 when running Android emulator in the
     // same computer that runs the API.
     private final String URL="http://"+BuildConfig.api_ip_port+"/api/";
 
     private Api(Context context) {
+        //TODO:podriamos instanciar los devicetypes sin nada y cuando retorna la api agregarle datos
         this.requestQueue = VolleySingleton.getInstance(context).getRequestQueue();
+        getDeviceTypes(
+                new Response.Listener<ArrayList<DeviceType>>() {
+                    @Override
+                    public void onResponse(ArrayList<DeviceType> response) {
+                        for(DeviceType d:response){
+                            switch (d.getName()){
+                                case "blinds":
+                                    typeId.put(d.getName(),new DeviceType(d.getId(),d.getName(),R.drawable.ic_blinds, BlindDialog.class));
+                                    break;
+                                case "lamp":
+                                    typeId.put(d.getName(),new DeviceType(d.getId(),d.getName(),R.drawable.ic_lamp, LampDialog.class));
+                                    break;
+                                case "oven":
+                                    typeId.put(d.getName(),new DeviceType(d.getId(),d.getName(),R.drawable.ic_oven, OvenDialog.class));
+                                    break;
+                                case "ac":
+                                    typeId.put(d.getName(),new DeviceType(d.getId(),d.getName(),R.drawable.ic_ac, AcDialog.class));
+                                    break;
+                                case "door":
+                                    typeId.put(d.getName(),new DeviceType(d.getId(),d.getName(),R.drawable.ic_door,DoorDialog.class));
+                                    break;
+                                case "refrigerator":
+                                    typeId.put(d.getName(),new DeviceType(d.getId(),d.getName(),R.drawable.ic_refrigerator, FridgeDialog.class));
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //TODO: better error handling in init api
+                        Log.e("API Initiation",error.toString());
+                    }
+                }
+        );
     }
 
     public static synchronized Api getInstance(Context context) {
@@ -90,9 +144,236 @@ public class Api {
         return uuid;
     }
 
+    public String getDeviceTypes(Response.Listener<ArrayList<DeviceType>> listener, Response.ErrorListener errorListener) {
+        String url = URL + "devicetypes/";
+        GsonRequest<Object, ArrayList<DeviceType>> request =
+                new GsonRequest<>(Request.Method.GET, url, null, "result", new TypeToken<ArrayList<DeviceType>>(){}, null, listener, errorListener);
+        String uuid = UUID.randomUUID().toString();
+        request.setTag(uuid);
+        requestQueue.add(request);
+        return uuid;
+    }
+
+    public String getTypeId(String type){
+        return typeId.get(type).getId();
+    }
+
+    public Set<String> getTypesNames(){;
+        return typeId.keySet();
+    }
+
+    public DeviceType[] getTypes(){
+        Collection<DeviceType> col=typeId.values();
+        return col.toArray(new DeviceType[typeId.values().size()]);
+    }
+
+    public Integer getDeviceTypeIcon(String type){
+        DeviceType deviceType = typeId.get(type);
+        return deviceType==null?R.drawable.ic_unknown_device:deviceType.getImg();
+    }
+
+    public DialogFragment getDeviceTypeDialog(String type,Context context){
+        DeviceType deviceType=typeId.get(type);
+        DialogFragment dialog;
+        try {
+            dialog=(DialogFragment) deviceType.getDialog().newInstance();
+        }catch (Exception e){
+            dialog=new ErrorOpeningDeviceDialog();
+        }
+        return dialog;
+    }
+
+    public String getDevices(Response.Listener<ArrayList<Device>> listener, Response.ErrorListener errorListener) {
+        String url = URL + "devices/";
+        GsonRequest<Object, ArrayList<Device>> request =
+                new GsonRequest<>(Request.Method.GET, url, null, "devices", new TypeToken<ArrayList<Device>>(){}, null, listener, errorListener);
+        String uuid = UUID.randomUUID().toString();
+        request.setTag(uuid);
+        requestQueue.add(request);
+        return uuid;
+    }
+
+    public String getDevicesInRoom(String roomId,Response.Listener<ArrayList<Device>> listener, Response.ErrorListener errorListener) {
+        String url = URL + "rooms/" + roomId + "/devices";
+        GsonRequest<Object, ArrayList<Device>> request =
+                new GsonRequest<>(Request.Method.GET, url, null, "result", new TypeToken<ArrayList<Device>>(){}, null, listener, errorListener);
+        String uuid = UUID.randomUUID().toString();
+        request.setTag(uuid);
+        requestQueue.add(request);
+        return uuid;
+    }
+
+
+    public String setAction(String deviceId, String actionName,Device[] args, Response.Listener<Object> listener, Response.ErrorListener errorListener) {
+        String url = URL + "devices/" + deviceId + "/" + actionName;
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/json");
+        GsonRequest<Device[], Object> request =
+                new GsonRequest<>(Request.Method.PUT, url, args, "result", new TypeToken<Object>() {
+                }, headers, listener, errorListener);
+
+        String uuid = UUID.randomUUID().toString();
+        request.setTag(uuid);
+        requestQueue.add(request);
+
+        return uuid;
+    }
+
+    public String addDevice(Device device, Response.Listener<Device> listener, Response.ErrorListener errorListener) {
+        String url = URL + "devices";
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/json");
+        GsonRequest<Device, Device> request =
+                new GsonRequest<>(Request.Method.POST, url, device, "result", new TypeToken<Device>(){}, headers, listener, errorListener);
+
+        String uuid = UUID.randomUUID().toString();
+        request.setTag(uuid);
+        requestQueue.add(request);
+
+        return uuid;
+    }
+
+
+    public String addDeviceToRoom(String roomId,String deviceId, Response.Listener<Boolean> listener, Response.ErrorListener errorListener) {
+        String url = URL + "rooms/" + roomId + "/devices/" + deviceId;
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/json");
+        GsonRequest<Room, Boolean> request =
+                new GsonRequest<>(Request.Method.POST, url, null, "result", new TypeToken<Boolean>(){}, headers, listener, errorListener);
+        String uuid = UUID.randomUUID().toString();
+        request.setTag(uuid);
+        requestQueue.add(request);
+
+        return uuid;
+    }
+
     public void cancelRequest(String uuid) {
         if ((uuid != null) && (requestQueue != null)) {
             requestQueue.cancelAll(uuid);
         }
     }
+
+
+    public String setActionInt(String deviceId, String actionName,Integer[] args, Response.Listener<Object> listener, Response.ErrorListener errorListener){
+        String url = URL + "devices/" + deviceId + "/" + actionName;
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/json");
+        GsonRequest<Integer[], Object> request =
+                new GsonRequest<>(Request.Method.PUT, url, args, "result", new TypeToken<Object>() {
+                }, headers, listener, errorListener);
+
+        String uuid = UUID.randomUUID().toString();
+        request.setTag(uuid);
+        requestQueue.add(request);
+
+        return uuid;
+    }
+
+    public String setActionBoolean(String deviceId, String actionName,Boolean[] args, Response.Listener<Object> listener, Response.ErrorListener errorListener){
+        String url = URL + "devices/" + deviceId + "/" + actionName;
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/json");
+        GsonRequest<Boolean[], Object> request =
+                new GsonRequest<>(Request.Method.PUT, url, args, "result", new TypeToken<Object>() {
+                }, headers, listener, errorListener);
+
+        String uuid = UUID.randomUUID().toString();
+        request.setTag(uuid);
+        requestQueue.add(request);
+
+        return uuid;
+    }
+
+    public String setActionString(String deviceId, String actionName,String[] args, Response.Listener<Object> listener, Response.ErrorListener errorListener){
+        String url = URL + "devices/" + deviceId + "/" + actionName;
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/json");
+        GsonRequest<String[], Object> request =
+                new GsonRequest<>(Request.Method.PUT, url, args, "result", new TypeToken<Object>() {
+                }, headers, listener, errorListener);
+
+        String uuid = UUID.randomUUID().toString();
+        request.setTag(uuid);
+        requestQueue.add(request);
+
+        return uuid;
+    }
+
+    public String setActionDoub(String deviceId, String actionName,Double[] args, Response.Listener<Object> listener, Response.ErrorListener errorListener){
+        String url = URL + "devices/" + deviceId + "/" + actionName;
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/json");
+        GsonRequest<Double[], Object> request =
+                new GsonRequest<>(Request.Method.PUT, url, args, "result", new TypeToken<Object>() {
+                }, headers, listener, errorListener);
+
+        String uuid = UUID.randomUUID().toString();
+        request.setTag(uuid);
+        requestQueue.add(request);
+
+        return uuid;
+    }
+
+
+    public String getDeviceState(String deviceId, Response.Listener<Device> listener, Response.ErrorListener errorListener){
+        String url = URL + "devices/" + deviceId + "/state";
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/json");
+        GsonRequest<Object, Device> request =
+                new GsonRequest<>(Request.Method.GET, url, null, "result", new TypeToken<Device>(){}, headers, listener, errorListener);
+        String uuid = UUID.randomUUID().toString();
+        request.setTag(uuid);
+        requestQueue.add(request);
+        return uuid;
+    }
+
+
+    public String getRoutines(Response.Listener<ArrayList<Routine>> listener, Response.ErrorListener errorListener){
+        String url = URL + "routines/";
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/json");
+        GsonRequest<Object, ArrayList<Routine>> request =
+                new GsonRequest<>(Request.Method.GET, url, null, "result", new TypeToken<ArrayList<Routine>>(){}, headers, listener, errorListener);
+        String uuid = UUID.randomUUID().toString();
+        request.setTag(uuid);
+        requestQueue.add(request);
+        return uuid;
+
+
+    }
+
+
+    public String setActionStringBool(String deviceId, String actionName,String[] args, Response.Listener<Boolean> listener, Response.ErrorListener errorListener){
+        String url = URL + "devices/" + deviceId + "/" + actionName;
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/json");
+        GsonRequest<String[], Boolean> request =
+                new GsonRequest<>(Request.Method.PUT, url, args, "result", new TypeToken<Boolean>() {
+                }, headers, listener, errorListener);
+
+        String uuid = UUID.randomUUID().toString();
+        request.setTag(uuid);
+        requestQueue.add(request);
+
+        return uuid;
+    }
+
+
+    public String execRoutine(String routineId, Response.Listener<ArrayList<Object>> listener, Response.ErrorListener errorListener){
+        String url = URL + "routines/" + routineId + "/execute";
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/json");
+        GsonRequest<String[],ArrayList<Object>> request =
+                new GsonRequest<>(Request.Method.PUT, url, null, "result", new TypeToken<ArrayList<Object>>() {
+                }, headers, listener, errorListener);
+
+        String uuid = UUID.randomUUID().toString();
+        request.setTag(uuid);
+        requestQueue.add(request);
+
+        return uuid;
+    }
+
+
+
 }
