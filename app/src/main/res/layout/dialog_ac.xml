@@ -46,7 +46,7 @@
         android:id="@+id/ac_switch"
         android:layout_width="159dp"
         android:layout_height="51dp"
-        android:text="Apagar/Encender"
+        android:text="@string/apg_enc"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintEnd_toEndOf="@+id/ac_mode_spinner"
         app:layout_constraintHorizontal_bias="0.0"

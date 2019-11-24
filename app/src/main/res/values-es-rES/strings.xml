@@ -60,4 +60,5 @@
     <string name="delete_room">Borrar Cuarrto</string>
     <string name="error_deleting_room">Error al borrar cuarto</string>
     <string name="bloquear_desbloquear">Bloquear/Desbloquear</string>
+    <string name="apg_enc">Apagar/Encender</string>
 </resources>

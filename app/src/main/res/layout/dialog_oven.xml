@@ -55,7 +55,7 @@
         android:id="@+id/oven_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="apagar/encender"
+        android:text="@string/apg_enc"
         app:layout_constraintBottom_toTopOf="@+id/oven_source_spinner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline7"

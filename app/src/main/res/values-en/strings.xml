@@ -60,4 +60,5 @@
     <string name="delete_room">Delete room</string>
     <string name="error_deleting_room">Error deleting room</string>
     <string name="bloquear_desbloquear">Block/Unblock</string>
+    <string name="apg_enc">Turn on/off</string>
 </resources>

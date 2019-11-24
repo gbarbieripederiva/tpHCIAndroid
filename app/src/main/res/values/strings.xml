@@ -133,5 +133,6 @@
     <string name="cerrar_abrir">Cerrar/Abrir</string>
     <string name="delete_room">Borrar cuarto</string>
     <string name="error_deleting_room">Error al borrar cuarto</string>
+    <string name="apg_enc">Apagar/Encender</string>
 
 </resources>
