@@ -8,23 +8,58 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.work.Constraints;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
 import android.view.Menu;
+
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+
+import ar.edu.itba.barsahome.api.Api;
+import ar.edu.itba.barsahome.api.Device;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+
+    public static ArrayList<Device> localDevices;
+
     private Menu menu;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Api.getInstance(this).getDevices(new Response.Listener<ArrayList<Device>>() {
+            @Override
+            public void onResponse(ArrayList<Device> response) {
+                localDevices = new ArrayList<>(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+        Constraints constraints = new Constraints.Builder().setRequiresBatteryNotLow(true).build();
+
+
+        PeriodicWorkRequest notifRequest = new PeriodicWorkRequest.Builder(DevWorkManager.class, 15, TimeUnit.MINUTES).setConstraints(constraints).build();
+
+        WorkManager.getInstance().enqueue(notifRequest);
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -39,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
     }
 
     @Override
@@ -63,4 +99,7 @@ public class MainActivity extends AppCompatActivity {
     public void setActionBarTitle(String title){
         getSupportActionBar().setTitle(title);
     }
+
+
+
 }

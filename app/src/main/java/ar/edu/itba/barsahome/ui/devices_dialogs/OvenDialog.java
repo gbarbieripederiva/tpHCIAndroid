@@ -23,14 +23,16 @@ import androidx.fragment.app.DialogFragment;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
+import java.util.ArrayList;
+
 import ar.edu.itba.barsahome.BarsaApp;
+import ar.edu.itba.barsahome.MainActivity;
 import ar.edu.itba.barsahome.R;
 import ar.edu.itba.barsahome.api.Api;
 import ar.edu.itba.barsahome.api.Device;
 
 public class OvenDialog extends DialogFragment {
 
-    private NotificationManagerCompat notManager;
 
     private SeekBar temp;
     private TextView grillModeText;
@@ -57,7 +59,6 @@ public class OvenDialog extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
 
-        notManager = NotificationManagerCompat.from(getActivity());
 
         max = 230.0;
         min = 90.0;
@@ -65,7 +66,7 @@ public class OvenDialog extends DialogFragment {
 
 
 
-        title = "OVEN";
+        title = getArguments().getString("deviceName");
 
         heatSourceArray = getResources().getStringArray(R.array.heat_source);
         grillModeArray = getResources().getStringArray(R.array.grill_mode);
@@ -204,7 +205,10 @@ public class OvenDialog extends DialogFragment {
                 api_setHeat(heatSourceArray[currentHeatSource]);
                 api_setTemperature(current);
 
-                sendDevNot(getView());
+
+
+
+                local_refresh();
                 getDialog().dismiss();
             }
         });
@@ -408,22 +412,20 @@ public class OvenDialog extends DialogFragment {
         });
     }
 
-    public void sendDevNot(View view){
 
+    private void local_refresh(){
+        Api.getInstance(getActivity()).getDevices(new Response.Listener<ArrayList<Device>>() {
+            @Override
+            public void onResponse(ArrayList<Device> response) {
+                MainActivity.localDevices = new ArrayList<>(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
 
-
-        Notification not = new NotificationCompat.Builder(getActivity(), BarsaApp.CHANNEL_1_ID).setSmallIcon(R.drawable.ic_oven)
-                .setContentTitle(getString(R.string.notification_title))
-                .setContentText(getString(R.string.notification_text))
-                .setPriority(NotificationManager.IMPORTANCE_LOW).build();
-
-        notManager.notify(1, not);
-
-
-
-
+            }
+        });
     }
-
 
 
 

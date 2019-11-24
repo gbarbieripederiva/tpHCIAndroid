@@ -27,13 +27,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import ar.edu.itba.barsahome.BarsaApp;
+import ar.edu.itba.barsahome.MainActivity;
 import ar.edu.itba.barsahome.R;
 import ar.edu.itba.barsahome.api.Api;
 import ar.edu.itba.barsahome.api.Device;
 import ar.edu.itba.barsahome.api.Routine;
 
 public class AcDialog extends DialogFragment {
-    private NotificationManagerCompat notManager;
 
 
     private TextView acTitle;
@@ -69,9 +69,8 @@ public class AcDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
 
-        notManager = NotificationManagerCompat.from(getActivity());
 
-        title = "AC";
+        title = getArguments().getString("deviceName");
         min = 18.0;
         max = 38.0;
         current = 20.0;
@@ -231,7 +230,7 @@ public class AcDialog extends DialogFragment {
                 api_changeHorizontal(getArguments().getString("deviceId"), acHorArray[currentHor].replace("°", ""));
                 api_setMode(getArguments().getString("deviceId"), acModeArray[currentMode]);
 
-                sendDevNot(getView());
+                local_refresh();
                 getDialog().dismiss();
             }
         });
@@ -468,20 +467,19 @@ public class AcDialog extends DialogFragment {
         });
     }
 
-    public void sendDevNot(View view){
 
+    private void local_refresh(){
+        Api.getInstance(getActivity()).getDevices(new Response.Listener<ArrayList<Device>>() {
+            @Override
+            public void onResponse(ArrayList<Device> response) {
+                MainActivity.localDevices = new ArrayList<>(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
 
-
-        Notification not = new NotificationCompat.Builder(getActivity(), BarsaApp.CHANNEL_1_ID).setSmallIcon(R.drawable.ic_ac)
-                .setContentTitle(getString(R.string.notification_title))
-                .setContentText(getString(R.string.notification_text))
-                .setPriority(NotificationManager.IMPORTANCE_LOW).build();
-
-        notManager.notify(1, not);
-
-
-
-
+            }
+        });
     }
 
 }

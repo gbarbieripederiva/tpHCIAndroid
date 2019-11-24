@@ -24,13 +24,14 @@ import com.android.volley.VolleyError;
 import java.util.ArrayList;
 
 import ar.edu.itba.barsahome.BarsaApp;
+import ar.edu.itba.barsahome.MainActivity;
 import ar.edu.itba.barsahome.R;
 import ar.edu.itba.barsahome.api.Api;
 import ar.edu.itba.barsahome.api.Device;
 import ar.edu.itba.barsahome.api.Routine;
 
 public class BlindDialog extends DialogFragment {
-    private NotificationManagerCompat notManager;
+
     private TextView blind_title;
     private ProgressBar blind_progbar;
     private Switch blind_switch;
@@ -55,11 +56,9 @@ public class BlindDialog extends DialogFragment {
 
 
 
-        notManager = NotificationManagerCompat.from(getActivity());
-
         startRepeating(getView());
 
-        title = "BLINDS";
+        title = getArguments().getString("deviceName");
 
 
         View view = inflater.inflate(R.layout.dialog_blinds, container, false);
@@ -116,7 +115,7 @@ public class BlindDialog extends DialogFragment {
                 else {
                     api_close(getArguments().getString("deviceId"));
                 }
-                sendDevNot(getView());
+                local_refresh();
                 getDialog().dismiss();
             }
         });
@@ -220,19 +219,19 @@ public class BlindDialog extends DialogFragment {
 
 
 
-    public void sendDevNot(View view){
 
 
+    private void local_refresh(){
+        Api.getInstance(getActivity()).getDevices(new Response.Listener<ArrayList<Device>>() {
+            @Override
+            public void onResponse(ArrayList<Device> response) {
+                MainActivity.localDevices = new ArrayList<>(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
 
-        Notification not = new NotificationCompat.Builder(getActivity(), BarsaApp.CHANNEL_1_ID).setSmallIcon(R.drawable.ic_blinds)
-                .setContentTitle(getString(R.string.notification_title))
-                .setContentText(getString(R.string.notification_text))
-                .setPriority(NotificationManager.IMPORTANCE_LOW).build();
-
-        notManager.notify(1, not);
-
-
-
-
+            }
+        });
     }
 }

@@ -106,10 +106,9 @@ public class DialogRoutine extends DialogFragment {
 
 
     private void api_execute_routine(){
-        Api.getInstance(getContext()).execRoutine(routine.getId(), new Response.Listener<Object[]>() {
+        Api.getInstance(getContext()).execRoutine(routine.getId(), new Response.Listener<ArrayList<Object>>() {
             @Override
-            public void onResponse(Object[] response) {
-                System.out.println("hola");
+            public void onResponse(ArrayList<Object> response) {
             }
         }, new Response.ErrorListener() {
             @Override

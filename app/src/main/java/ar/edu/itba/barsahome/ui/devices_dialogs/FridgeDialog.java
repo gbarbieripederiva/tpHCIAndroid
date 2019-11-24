@@ -21,13 +21,15 @@ import androidx.fragment.app.DialogFragment;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
+import java.util.ArrayList;
+
 import ar.edu.itba.barsahome.BarsaApp;
+import ar.edu.itba.barsahome.MainActivity;
 import ar.edu.itba.barsahome.R;
 import ar.edu.itba.barsahome.api.Api;
 import ar.edu.itba.barsahome.api.Device;
 
 public class FridgeDialog extends DialogFragment {
-    private NotificationManagerCompat notManager;
 
     private TextView fridge_title;
     private SeekBar fridge_temp;
@@ -50,14 +52,13 @@ public class FridgeDialog extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        title = "FRIDGE";
+        title = getArguments().getString("deviceName");
         minFridge = 2.0;
         maxFridge = 8.0;
         minFreezer = -20.0;
         maxFreezer = -8.0;
         fridge_options_array = getResources().getStringArray(R.array.fridge_opt);
 
-        notManager = NotificationManagerCompat.from(getActivity());
 
 
         View view = inflater.inflate(R.layout.dialog_fridge, container, false);
@@ -155,7 +156,6 @@ public class FridgeDialog extends DialogFragment {
                 api_setFridgeTemp(currentFridge);
                 api_setMode(fridge_options_array[current_fridge_opt]);
 
-                sendDevNot(getView());
                 getDialog().dismiss();
             }
         });
@@ -163,6 +163,8 @@ public class FridgeDialog extends DialogFragment {
 
 
         fetching();
+
+        local_refresh();
 
 
 
@@ -278,20 +280,18 @@ public class FridgeDialog extends DialogFragment {
 
     }
 
-    public void sendDevNot(View view){
+    private void local_refresh(){
+        Api.getInstance(getActivity()).getDevices(new Response.Listener<ArrayList<Device>>() {
+            @Override
+            public void onResponse(ArrayList<Device> response) {
+                MainActivity.localDevices = new ArrayList<>(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
 
-
-
-        Notification not = new NotificationCompat.Builder(getActivity(), BarsaApp.CHANNEL_1_ID).setSmallIcon(R.drawable.ic_refrigerator)
-                .setContentTitle(getString(R.string.notification_title))
-                .setContentText(getString(R.string.notification_text))
-                .setPriority(NotificationManager.IMPORTANCE_LOW).build();
-
-        notManager.notify(1, not);
-
-
-
-
+            }
+        });
     }
 
 
