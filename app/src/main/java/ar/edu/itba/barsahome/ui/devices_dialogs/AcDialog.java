@@ -70,6 +70,7 @@ public class AcDialog extends DialogFragment {
 
 
 
+
         title = getArguments().getString("deviceName");
         min = 18.0;
         max = 38.0;
