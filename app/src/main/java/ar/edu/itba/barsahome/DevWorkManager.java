@@ -38,7 +38,11 @@ public class DevWorkManager extends Worker {
             @Override
             public void onResponse(ArrayList<Device> response) {
                 apiCopy = new ArrayList<>(response);
-                if(!(MainActivity.localDevices.contains(response))){
+
+
+                if(!(MainActivity.localDevices.equals(apiCopy))){
+
+
                     sendDevNot();
                     MainActivity.localDevices = new ArrayList<>(response);
 
@@ -58,7 +62,7 @@ public class DevWorkManager extends Worker {
 
 
 
-        Notification not = new NotificationCompat.Builder(getApplicationContext(), BarsaApp.CHANNEL_1_ID).setSmallIcon(R.drawable.ic_door)
+        Notification not = new NotificationCompat.Builder(getApplicationContext(), BarsaApp.CHANNEL_1_ID).setSmallIcon(R.drawable.ic_home)
                 .setContentTitle("Cambio en un dispositivo")
                 .setContentText("Ha habido un cambio en alguno de sus dispositivos")
                 .setPriority(NotificationManager.IMPORTANCE_HIGH).build();

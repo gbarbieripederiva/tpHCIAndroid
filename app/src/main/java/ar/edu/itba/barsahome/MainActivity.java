@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
 
-    public static ArrayList<Device> localDevices;
+    public static ArrayList<Device> localDevices = new ArrayList<>();
 
     private Menu menu;
 
@@ -44,7 +44,11 @@ public class MainActivity extends AppCompatActivity {
         Api.getInstance(this).getDevices(new Response.Listener<ArrayList<Device>>() {
             @Override
             public void onResponse(ArrayList<Device> response) {
-                localDevices = new ArrayList<>(response);
+                localDevices = new ArrayList<>(response.size());
+                for(int i = 0; i < response.size(); i++){
+                    localDevices.add(response.get(i));
+
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -52,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+
 
         Constraints constraints = new Constraints.Builder().setRequiresBatteryNotLow(true).build();
 
