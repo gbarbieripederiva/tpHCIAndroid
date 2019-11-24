@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <Switch
@@ -11,7 +11,7 @@
         android:layout_width="148dp"
         android:layout_height="39dp"
         android:layout_marginTop="15dp"
-        android:text="Abrir/Cerrar"
+        android:text="@string/cerrar_abrir"
         app:layout_constraintEnd_toEndOf="@+id/blind_prog"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="@+id/blind_prog"
@@ -35,12 +35,10 @@
         android:layout_width="226dp"
         android:layout_height="31dp"
         android:layout_marginTop="15dp"
-        android:layout_marginBottom="200dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/blind_switch"
-        app:layout_constraintVertical_bias="0.312" />
+        app:layout_constraintTop_toBottomOf="@+id/blind_switch" />
 
     <TextView
         android:id="@+id/blind_percentage"
@@ -69,7 +67,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#33BBFF"
-        app:layout_constraintBottom_toTopOf="@+id/guideline9"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.765"
         app:layout_constraintStart_toStartOf="@+id/guideline10"

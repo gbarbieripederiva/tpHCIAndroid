@@ -38,7 +38,8 @@
         app:layout_constraintEnd_toEndOf="@+id/locked_unlocked_alarm"
         app:layout_constraintStart_toStartOf="@+id/locked_unlocked_alarm"
         app:layout_constraintTop_toBottomOf="@+id/locked_unlocked_alarm"
-        app:layout_constraintVertical_bias="0.228" />
+        app:layout_constraintVertical_bias="0.228"
+        android:background="@drawable/rounded_corner_imagebutton"/>
 
     <Button
         android:id="@+id/change_pass_button"
@@ -47,7 +48,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/unlock_lock_button"
         app:layout_constraintStart_toStartOf="@+id/unlock_lock_button"
-        app:layout_constraintTop_toBottomOf="@+id/unlock_lock_button" />
+        app:layout_constraintTop_toBottomOf="@+id/unlock_lock_button"
+        android:background="@drawable/rounded_corner_imagebutton"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

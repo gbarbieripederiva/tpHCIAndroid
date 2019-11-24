@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimary">@color/ourLightBlue</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="buttonUnselected">#FFEB3B</color>
     <color name="buttonSelected">#FFC107</color>
+
+    <color name="ourLightBlue">#3097a6</color>
+    <color name="ourBlue">#1976d1</color>
+    <color name="ourYellow">#d0c93d</color>
+    <color name="ourGrey">#9e9e9e</color>
 </resources>

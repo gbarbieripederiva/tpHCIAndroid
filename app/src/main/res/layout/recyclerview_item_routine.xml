@@ -9,5 +9,6 @@
         android:adjustViewBounds="true"
         android:id="@+id/routine_button"
         android:layout_width="match_parent"
-        android:layout_height="84dp" />
+        android:layout_height="84dp"
+        android:background="@drawable/routine_button"/>
 </LinearLayout>

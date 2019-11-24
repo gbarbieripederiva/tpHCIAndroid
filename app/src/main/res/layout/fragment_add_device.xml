@@ -45,7 +45,9 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        app:cardCornerRadius="15dp"
+        android:layout_margin="10dp">
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/fragment_add_device_recyclerview"
             android:layout_width="match_parent"
@@ -55,5 +57,7 @@
         android:id="@+id/fragment_add_device_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/listo"/>
+        android:text="@string/listo"
+        android:background="@drawable/rounded_corner_imagebutton"
+        />
 </LinearLayout>

@@ -8,7 +8,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -84,9 +83,8 @@ public class RoomFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        super.onOptionsItemSelected(item);
         if(item.getItemId()==R.id.action_delete){
-           Api.getInstance(getContext())
+            Api.getInstance(getContext())
                    .deleteRoom(this.roomId, new Response.Listener<Boolean>() {
                        @Override
                        public void onResponse(Boolean response) {
@@ -99,6 +97,8 @@ public class RoomFragment extends Fragment {
                        }
                    });
         }
-        return true;
+        return super.onOptionsItemSelected(item);
     }
+
+
 }

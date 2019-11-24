@@ -10,6 +10,7 @@
         android:adjustViewBounds="true"
         android:layout_height="match_parent"
         android:id="@+id/recyclerview_item_room_button"
+        android:background="@drawable/rounded_corner_imagebutton"
         />
     <TextView
         android:layout_width="match_parent"
