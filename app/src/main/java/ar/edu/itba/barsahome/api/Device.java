@@ -1,5 +1,7 @@
 package ar.edu.itba.barsahome.api;
 
+import java.util.Objects;
+
 public class Device {
     private String id;
     private String name;
@@ -28,6 +30,8 @@ public class Device {
         this.type = type;
         this.meta = meta;
     }
+
+
 
     public void setId(String id) {
         this.id = id;
@@ -219,4 +223,28 @@ public class Device {
     public void setTemperature(Double temperature) {
         this.temperature = temperature;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Device device = (Device) o;
+        return Objects.equals(id, device.id) &&
+                Objects.equals(name, device.name) &&
+                Objects.equals(status, device.status) &&
+                Objects.equals(temperature, device.temperature) &&
+                Objects.equals(mode, device.mode) &&
+                Objects.equals(verticalSwing, device.verticalSwing) &&
+                Objects.equals(horizontalSwing, device.horizontalSwing) &&
+                Objects.equals(fanSpeed, device.fanSpeed) &&
+                Objects.equals(lock, device.lock) &&
+                Objects.equals(heat, device.heat) &&
+                Objects.equals(grill, device.grill) &&
+                Objects.equals(convection, device.convection) &&
+                Objects.equals(level, device.level) &&
+                Objects.equals(freezerTemperature, device.freezerTemperature) &&
+                Objects.equals(color, device.color) &&
+                Objects.equals(brightness, device.brightness);
+    }
+
 }

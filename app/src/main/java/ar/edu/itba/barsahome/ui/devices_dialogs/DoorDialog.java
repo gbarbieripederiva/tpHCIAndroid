@@ -89,6 +89,9 @@ public class DoorDialog extends DialogFragment {
             }
         });
 
+
+
+
         cancel = (TextView) view.findViewById(R.id.cancel);
         cancel.setText(getText(R.string.cancel));
         cancel.setOnClickListener(new View.OnClickListener() {
